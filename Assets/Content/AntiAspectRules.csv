@@ -1,0 +1,2 @@
+entity,action,expiringAntiAspect,aspect1,aspect2,aspect3,aspect4,aspect5,weight,addEntity,addAction,addActionsFromGroup,countNewActions,addEntitiesFromGroup,countNewEntities,addAspect1,aspect1Time,addAspect2,addAspect2Time,addAntiAspect1,addAntiAspect1Time,addAntiAspect2,addAntiAspect2Time,deleteAspect1,deleteAspect2,deleteAntiAspect1,deleteAntiAspect2,deleteEntity,newAspect1Time,addAspect2,addAspect2Time,deleteAspect1,deleteAspect2,deleteEntity,caseAspect,addCaseText
+right_leg,,I,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

@@ -1,0 +1,26 @@
+number,id,group,chance,name,description,aspect1,aspect1Time,aspect2,aspect2Time,aspect3,aspect3Time,aspect4,aspect4Time,aspect5,aspect5Time,aspect6,aspect6Time,aspect7,aspect7Time,antiAspect1,antiAspect1Time,antiAspect2,antiAspect2Time,antiAspect3,antiAspect3Time,antiAspect4,antiAspect4Time,uniqueness
+1,destiny,destiny,10,Судьба,,meeting,3,finding,2,surprise,5,mystery,6,,,,,,,,,,,,,,,
+2,left_leg,first,10,Левая нога,,I,,body,,stimulus,,,,,,,,,,,,,,,,,,
+3,right_leg,first,10,Правая нога,,I,,body,,stimulus,,,,,,,,,,,,,,,,,,
+4,left_hand,first,10,Левая рука,,I,,body,,stimulus,,,,,,,,,,,,,,,,,,
+5,right_hand,first,10,Правая рука,,I,,body,,stimulus,,,,,,,,,,,,,,,,,,
+6,head,first,10,Голова,,I,,body,,stimulus,,mind,,,,,,,,,,,,,,,,
+7,astral_projection,second,10,Астральная проекция,,I,,soul,,stimulus,,magic,,,,,,,,,,,,,,,,
+8,passer,passers,10,Прохожий,,move,2,mind,,,,person,,,,,,,,,,,,,,,,
+9,postman,passers,10,Почтальон,,move,2,mind,,trader,,person,,,,,,,,,,,,,,,,2
+10,mysteypurchant,passers,10,Таинственный продавец,,move,3,mind,,trader,,person,,,,,,,,,,,,,,,,2
+11,oldlady,passers,20,Мисс Бейтс,,move,10,mind,,client,,person,,old,,death,27,,,,,,,,,,,1
+12,crowd1,passers,10,Толпа,,move,2,irritation,,anxiety,,environment,,,,,,,,,,,,,,,,
+13,crowd2,passers,10,Толпа,,move,2,sadness,,anxiety,,environment,,,,,,,,,,,,,,,,
+14,crowd3,passers,10,Толпа,,move,2,happiness,,joy,,environment,,,,,,,,,,,,,,,,
+15,wildcat,passers,10,Бездомный кот,,move,2,small,,,,person,,,,,,,,,,,,,,,,
+16,blacraven,passers,5,Черный ворон,,move,2,mind,,,,person,,,,,,,,,,,,,,,,
+17,oldwardrobe,find,10,Высокий шкаф,,container,,thing,,damaged,3,obstacle,,,,,,,,,,,,,,,,
+18,chest,find,10,Древний сундук,,container,,thing,,,,,,,,,,,,,,,,,,,,2
+19,garbagecollector,find,10,Мусорный бак,,container,,thing,,,,,,,,,,,,,,,,,,,,2
+20,lostwallet,find,5,Потерянный кошелек,,container,,thing,,use,,,,,,,,,,,,,,,,,,2
+21,garbage,find,15,Мусор,,,,thing,,useless,,,,,,,,,,,,,,,,,,
+22,,mysteries,10,Зловещие тени,,move,1,dissent,,,,,,,,,,,,,,,,,,,,
+23,,visit,10,Лес,,place,,,,,,,,,,,,,,,,,,,,,,
+24,,visit,10,Улица,,place,,,,,,,,,,,,,,,,,,,,,,
+25,,visit,10,Магазин,,place,,,,,,,,,,,,,,,,,,,,,,

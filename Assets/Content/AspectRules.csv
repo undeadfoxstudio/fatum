@@ -1,0 +1,7 @@
+number,entity,action,expiringAspect,aspect1,aspect2,aspect3,aspect4,aspect5,weight,addEntity,addAction,addActionsFromGroup,countNewActions,addEntitiesFromGroup,countNewEntities,addAspect1,aspect1Time,addAspect2,addAspect2Time,addAntiAspect1,addAntiAspect1Time,addAntiAspect2,addAntiAspect2Time,deleteAspect1,deleteAspect2,deleteAntiAspect1,deleteAntiAspect2,deleteEntity,newAspect1Time,addAspect2,addAspect2Time,deleteAspect1,deleteAspect2,deleteAction
+1,destiny,,meeting,,,,,,,,,,,passers,1,meeting,4,,,,,,,,,,,,,,,,,
+2,destiny,,finding,,,,,,,,,,,find,1,finding,3,,,,,,,,,,,,,,,,,
+3,destiny,,surprise,,,,,,,,,,,,,surprise,5,,,,,,,,,,,,,,,,,
+4,destiny,,mystery,,,,,,,,,,,mysteries,1,mystery,6,,,,,,,,,,,,,,,,,
+5,oldwardrobe,,damaged,,,,,,,garbage,,,,,,,,,,,,,,,,,,1,,,,,,
+6,,,move,,,,,,,,,,,,,,,,,,,,,,,,,1,,,,,,

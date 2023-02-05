@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90a7caf96d844fb481e3576814352ade, type: 3}
+  m_Name: CameraConfig
+  m_EditorClassIdentifier: 
+  MaxScrollDistance: 4.5
+  MinScrollDistance: 2.5
+  ScrollSpeed: 0.2
+  LeftLimitPoint: {x: -2.29, y: 1.29, z: -0.98}
+  RightLimitPoint: {x: -2.25, y: 1.29, z: 1}
+  BackwardLimitPoint: {x: 2.25, y: 1.29, z: -0.91}
+  ForwardLimitPoint: {x: 2.23, y: 1.29, z: 0.96}

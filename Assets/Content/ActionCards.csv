@@ -1,0 +1,9 @@
+number,id,group,chance,name,description,aspect1,aspect1Time,aspect2,aspect2Time,aspect3,aspect3Time,aspect4,aspect4Time,aspect5,aspect5Time,aspect6,aspect6Time,antiAspect1,antiAspect1Time,antiAspect2,antiAspect2Time,antiAspect3,antiAspect3Time,antiAspect4,antiAspect4Time,uniqueness
+1,curiosity,first_hand,10,Любопытство,,stimulus,,,,,,,,,,,,,,,,,,,,
+2,determination,first_hand,10,Решительность,,stimulus,,,,,,,,,,,,,,,,,,,,
+3,destruction,first_hand,10,Деструкция,,stimulus,,,,,,,,,,,,,,,,,,,,
+4,concentration,first_hand,10,Концентрация,,stimulus,,,,,,,,,,,,,,,,,,,,
+5,inspiration,first_hand,10,Вдохновение,Созидание,stimulus,,,,,,,,,,,,,,,,,,,,
+6,loneliness,first_hand,10,Одиночество,,stimulus,,,,,,,,,,,,,,,,,,,,
+7,get_around,leg_determination,10,Преодолеть,,thing,,obstacle,,,,,,,,,,,,,,,,,,
+8,collect_herbs,leg_determination,10,Пролезть,,place,,nature,,,,,,,,,,,,,,,,,,
