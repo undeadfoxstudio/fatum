@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using UnityEngine;
+using Random = System.Random;
 
 namespace TableMode
 {
@@ -11,23 +12,35 @@ namespace TableMode
         public event Action<IEntityCardView> OnDestroy;
         public Collider Collider => _behavior.HoverCollider;
         public string Id => _entityCard.Id;
+        public string Name => _entityCard.Name;
+        public string Description => _entityCard.Description;
         public Vector3 Position => _behavior.BehaviorTransform.position;
-        public IEnumerable<IAspect> Aspects => _entityCard.Aspects;
-        public IEnumerable<IAspect> AntiAspects => _entityCard.AntiAspects;
+        public IEnumerable<IAspect> Aspects => _aspectViews.Select(a => a.Aspect);
+        public IEnumerable<IAspect> AntiAspects => _antiAspectViews.Select(a => a.Aspect);
+        public Vector3 OffsetMove => _offsetDragPosition;
 
         private readonly IMergeStorage _mergeStorage;
+        private readonly ITextureGenerator _textureGenerator;
         private readonly IEntityCard _entityCard; 
         private readonly IEntityCardBehavior _behavior;
         private bool IsHovered;
         private Vector3 _firstDragPosition;
         private Vector3 _offsetDragPosition;
 
+        private readonly List<IAspectView> _aspectViews;
+        private readonly List<IAspectView> _antiAspectViews;
+        private readonly Dictionary<IAspectView, int> _currentAspects = new Dictionary<IAspectView, int>();
+        
         public EntityCardView(
             IMergeStorage mergeStorage,
+            ITextureGenerator textureGenerator,
             IEntityCardBehavior entityCardBehavior,
-            IEntityCard entityCard)
+            IEntityCard entityCard,
+            IEnumerable<IAspectView> aspects,
+            IEnumerable<IAspectView> antiAspects)
         {
             _mergeStorage = mergeStorage;
+            _textureGenerator = textureGenerator;
             _entityCard = entityCard;
 
             _behavior = entityCardBehavior;
@@ -35,6 +48,38 @@ namespace TableMode
                 _entityCard, 
                 OnCollisionEnter, 
                 OnCollisionExit);
+
+            _aspectViews = aspects.ToList();
+            _antiAspectViews = antiAspects.ToList();
+
+            foreach (var aspectView in _aspectViews)
+                PlaceAspect(aspectView);
+
+            foreach (var antiAspectView in _antiAspectViews)
+                PlaceAspect(antiAspectView);
+
+            UpdateGradient();
+        }
+
+        private void PlaceAspect(IAspectView aspectView)
+        {
+            var position = GetRandomEmptySlotAspect();
+
+            _currentAspects.Add(aspectView, position);
+
+            aspectView.SetParent(_behavior.slots.ElementAt(position).transform);
+        }
+
+        private int GetRandomEmptySlotAspect()
+        {
+            var i = 0; var slots = _behavior.slots.Select(s => i++).ToList();
+            var emptySlots = slots
+                .Except(_currentAspects.Values)
+                .ToList();
+
+            if (!emptySlots.Any()) throw new Exception("Too much aspects");
+
+            return emptySlots.ElementAt(new Random().Next(0,emptySlots.Count));
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -55,27 +100,97 @@ namespace TableMode
 
         public void SwitchModeTo(CardReady mode) => _behavior.SetState(mode);
         
-        public void AddAspect(IAspect aspect)
+        public void AddAspect(IAspectView aspectView)
         {
-            _entityCard.Aspects.Add(aspect);
+            if (_aspectViews.FirstOrDefault(a => a.Aspect.Id == aspectView.Aspect.Id) != null)
+                RemoveAspect(aspectView.Aspect.Id);
+
+            _aspectViews.Add(aspectView);
+
+            PlaceAspect(aspectView);
+            
             _behavior.Draw();
+            
+            UpdateGradient();
+        }
+
+        //TODO
+        public void UpdateGradient()
+        {
+            var colors = _aspectViews
+                .Select(aspectView => aspectView.Aspect.IsActive ? aspectView.Aspect.GradientColor : Color.gray)
+                .ToList();
+
+            Texture2D texture = null;
+
+            switch (colors.Count)
+            {
+                case 1:
+                    texture = _textureGenerator.GenerateGradientPattern(
+                        colors.ElementAt(0),
+                        colors.ElementAt(0),
+                        colors.ElementAt(0),
+                        colors.ElementAt(0));
+                    break;
+                case 2:
+                    texture = _textureGenerator.GenerateGradientPattern(
+                        colors.ElementAt(0),
+                        colors.ElementAt(0),
+                        colors.ElementAt(1),
+                        colors.ElementAt(1));
+                    break;
+                case 3:
+                    texture = _textureGenerator.GenerateGradientPattern(
+                        colors.ElementAt(0),
+                        colors.ElementAt(1),
+                        colors.ElementAt(2),
+                        colors.ElementAt(2));
+                    break;
+            }
+
+            if (colors.Count >= 4)
+            {
+                texture = _textureGenerator.GenerateGradientPattern(
+                    colors.ElementAt(0),
+                    colors.ElementAt(1),
+                    colors.ElementAt(2),
+                    colors.ElementAt(3));
+            }
+            
+            _behavior.SetGradient(texture);
         }
 
         public void DisableAspect(string aspectId)
         {
-            _entityCard.Aspects.First(a => a.Id == aspectId).IsActive = false;
+            _aspectViews.First(a => a.Aspect.Id == aspectId).SetActive(false);
+
             _behavior.Draw();
         }
 
         public void RemoveAspect(string aspectId)
         {
-            _entityCard.Aspects.Remove(_entityCard.Aspects.First(a => a.Id == aspectId));
+            var removedAspect = _aspectViews.First(a => a.Aspect.Id == aspectId);
+
+            _currentAspects.Remove(removedAspect);
+            _aspectViews.Remove(removedAspect);
+
+            removedAspect.Destroy();
+
             _behavior.Draw();
+            
+            UpdateGradient();
         }
 
-        public void Rotate(float angle)
+        public void RemoveAntiAspect(string aspectId)
         {
-            throw new NotImplementedException();
+            var removedAspect = _antiAspectViews.First(a => a.Aspect.Id == aspectId);
+
+            _antiAspectViews.Remove(removedAspect);
+            removedAspect.Destroy();
+
+            _behavior.Draw();
+            
+            UpdateGradient();
         }
 
         public void Hover(Vector3 point)
@@ -113,6 +228,15 @@ namespace TableMode
         public void NextStep()
         {
             _entityCard.NextStep();
+
+            foreach (var aspectView in _aspectViews)
+                aspectView.Update();
+
+            foreach (var antiAspectView in _antiAspectViews)
+                antiAspectView.Update();
+
+            UpdateGradient();
+
             _behavior.Draw();
         }
 

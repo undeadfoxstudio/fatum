@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 namespace TableMode
 {
@@ -20,7 +19,7 @@ namespace TableMode
         public IActionCard CreateActionCard(string actionId)
         {
             var cardModel = _contentProvider.GetActionById(actionId);
-            
+
             var cardAspects = cardModel.Aspects
                 .Select(CreateAspect)
                 .ToList();
@@ -32,15 +31,14 @@ namespace TableMode
                 actionId,
                 cardAspects,
                 cardAntiAspects,
-                cardModel.Name);
+                cardModel.Name,
+                cardModel.Description);
         }
 
         public IEntityCard CreateEntityCard(string entityId)
         {
             var cardModel = _contentProvider.GetEntityById(entityId);
 
-            Debug.Log(entityId);
-            
             var cardAspects = cardModel.Aspects
                 .Select(CreateAspect)
                 .ToList();
@@ -53,7 +51,8 @@ namespace TableMode
                 entityId,
                 cardModel.Name,
                 cardAspects,
-                cardAntiAspects);
+                cardAntiAspects,
+                cardModel.Description);
 
             return ent;
         }

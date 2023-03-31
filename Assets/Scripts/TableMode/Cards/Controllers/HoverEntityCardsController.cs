@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -11,6 +12,9 @@ namespace TableMode
 
         private Collider _currentCardCollider;
         private bool IsEnabled = true;
+
+        public event Action<IEntityCardView> OnActionCardViewHover;
+        public event Action OnActionCardViewLeave;
 
         public HoverEntityCardsController(ICardViewFactory cardViewFactory,
             IInputController inputController)
@@ -45,11 +49,14 @@ namespace TableMode
                 if (_currentCardCollider != null)
                 {
                     _tableCards[_currentCardCollider].UnHover();
+                    OnActionCardViewLeave?.Invoke();
                     _currentCardCollider = null;
                 }
 
                 return;
             }
+
+            OnActionCardViewHover?.Invoke(view.Value);
 
             view.Value.Hover(raycastHit.point);
   
@@ -63,6 +70,7 @@ namespace TableMode
             if (_currentCardCollider != view.Key)
             {
                 _tableCards[_currentCardCollider].UnHover();
+                OnActionCardViewLeave?.Invoke();
                 _currentCardCollider = view.Key;
             }
         }

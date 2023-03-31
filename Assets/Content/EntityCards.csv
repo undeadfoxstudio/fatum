@@ -1,26 +1,40 @@
-number,id,group,chance,name,description,aspect1,aspect1Time,aspect2,aspect2Time,aspect3,aspect3Time,aspect4,aspect4Time,aspect5,aspect5Time,aspect6,aspect6Time,aspect7,aspect7Time,antiAspect1,antiAspect1Time,antiAspect2,antiAspect2Time,antiAspect3,antiAspect3Time,antiAspect4,antiAspect4Time,uniqueness
-1,destiny,destiny,10,Судьба,,meeting,3,finding,2,surprise,5,mystery,6,,,,,,,,,,,,,,,
-2,left_leg,first,10,Левая нога,,I,,body,,stimulus,,,,,,,,,,,,,,,,,,
-3,right_leg,first,10,Правая нога,,I,,body,,stimulus,,,,,,,,,,,,,,,,,,
-4,left_hand,first,10,Левая рука,,I,,body,,stimulus,,,,,,,,,,,,,,,,,,
-5,right_hand,first,10,Правая рука,,I,,body,,stimulus,,,,,,,,,,,,,,,,,,
-6,head,first,10,Голова,,I,,body,,stimulus,,mind,,,,,,,,,,,,,,,,
-7,astral_projection,second,10,Астральная проекция,,I,,soul,,stimulus,,magic,,,,,,,,,,,,,,,,
-8,passer,passers,10,Прохожий,,move,2,mind,,,,person,,,,,,,,,,,,,,,,
-9,postman,passers,10,Почтальон,,move,2,mind,,trader,,person,,,,,,,,,,,,,,,,2
-10,mysteypurchant,passers,10,Таинственный продавец,,move,3,mind,,trader,,person,,,,,,,,,,,,,,,,2
-11,oldlady,passers,20,Мисс Бейтс,,move,10,mind,,client,,person,,old,,death,27,,,,,,,,,,,1
-12,crowd1,passers,10,Толпа,,move,2,irritation,,anxiety,,environment,,,,,,,,,,,,,,,,
-13,crowd2,passers,10,Толпа,,move,2,sadness,,anxiety,,environment,,,,,,,,,,,,,,,,
-14,crowd3,passers,10,Толпа,,move,2,happiness,,joy,,environment,,,,,,,,,,,,,,,,
-15,wildcat,passers,10,Бездомный кот,,move,2,small,,,,person,,,,,,,,,,,,,,,,
-16,blacraven,passers,5,Черный ворон,,move,2,mind,,,,person,,,,,,,,,,,,,,,,
-17,oldwardrobe,find,10,Высокий шкаф,,container,,thing,,damaged,3,obstacle,,,,,,,,,,,,,,,,
-18,chest,find,10,Древний сундук,,container,,thing,,,,,,,,,,,,,,,,,,,,2
-19,garbagecollector,find,10,Мусорный бак,,container,,thing,,,,,,,,,,,,,,,,,,,,2
-20,lostwallet,find,5,Потерянный кошелек,,container,,thing,,use,,,,,,,,,,,,,,,,,,2
-21,garbage,find,15,Мусор,,,,thing,,useless,,,,,,,,,,,,,,,,,,
-22,,mysteries,10,Зловещие тени,,move,1,dissent,,,,,,,,,,,,,,,,,,,,
-23,,visit,10,Лес,,place,,,,,,,,,,,,,,,,,,,,,,
-24,,visit,10,Улица,,place,,,,,,,,,,,,,,,,,,,,,,
-25,,visit,10,Магазин,,place,,,,,,,,,,,,,,,,,,,,,,
+number,id,asset,group,chance,name,description,aspect1,aspect1Time,aspect2,aspect2Time,aspect3,aspect3Time,aspect4,aspect4Time,aspect5,aspect5Time,aspect6,aspect6Time,aspect7,aspect7Time,antiAspect1,antiAspect1Time,antiAspect2,antiAspect2Time,antiAspect3,antiAspect3Time,antiAspect4,antiAspect4Time,uniqueness
+2,legs,legs,first,10,Ноги,У меня есть ноги. Я могу отправиться куда угодно и к кому угодно.,I,,body,,stimulus,,,,,,,,,,,,,,,,,,
+4,hands,hands,first,10,Руки,У меня есть руки. Ими я создаю и уничтожаю материю.,I,,body,,stimulus,,,,,,,,,,,,,,,,,,
+6,head,head,first,10,Голова,"Сосуд, где поступки зреют на ментальных полях мотивации.",I,,body,,stimulus,,mind,,,,,,,,,,,,,,,,
+7,astral_projection,,second,10,Астральное тело.,Астральное продолжение моего Я. Теперь мне доступны новые пласты реальности.,I,,soul,,stimulus,,magic,,,,,,,,,,,,,,,,
+8,mystreet,street,first,,Улица,В этом городе узкие и грязные улицы.,place,,meeting,5,inhabited,,,,,,,,,,,,,,,,,,
+9,myroom,summoning_ritual,first,,Комната,"Двери должны быть заперты, пока длится таинство.",place,,surprise,3,,,,,,,,,,,,,,,,,,,
+10,passer,man,passers,10,Прохожий,Любопытный зевака. Любитель заглядывать в чужие окна.,move,1,mind,,,,person,,,,,,,,,,,,,,,,
+11,postman,man,passers,10,Почтальон,Не желаете купить у меня еженедельную газету?,move,1,mind,,trader,,person,,,,,,,,,,,,,,,,2
+12,mysteypurchant,char,passers,10,Таинственный продавец,"У меня есть то, что ты ищешь.",move,3,mind,,trader,,person,,,,,,,,,,,,,,,,2
+13,oldlady,woman,passers,20,Миссис Бейтс,"Люди говорят, что вы частный детектив. Поможете старой леди?",move,20,mind,,client,,person,,old,,death,27,,,,,,,,,,,1
+14,crowd1,crowd,passers,10,Толпа,"Деятельные горожане, обеспокоенные участившимися проявлениями тайных обществ.",move,2,irritation,,anxiety,,environment,,,,,,,,,,,,,,,,
+15,crowd2,crowd,passers,10,Толпа,Усталые люди расходятся по своим домам после тяжелого рабочего дня.,move,2,sadness,,anxiety,,environment,,,,,,,,,,,,,,,,
+16,crowd3,crowd,passers,10,Толпа,Веселая группа людей возвращается с очередного городского фестиваля.,move,2,happiness,,joy,,environment,,,,,,,,,,,,,,,,
+17,wildcat,,passers,10,Бездомная кошка,Кошки постоянно появляются и исчезают в самых неожиданных местах.,move,3,small,,,,person,,,,,,,,,,,,,,,,
+18,blacraven,bird,passers,5,Черный ворон,Птица с черными глазами внимально следит за вами.,move,2,mind,,,,person,,,,,,,,,,,,,,,,
+19,rat,rat,rat,5,Крыса,Эта крыса ведет себя крайне агрессивно.,move,7,irritation,,small,,,,,,,,,,,,,,,,,,
+19,rat1,rat,rat,5,Крыса,"Эта крыса очень слаба, она даже не убегает.",move,7,sickness,,small,,,,,,,,,,,,,,,,,,
+19,rat2,rat,rat,5,Крыса,Эта крыса ведет себя очень странно.,move,7,madness,,small,,,,,,,,,,,,,,,,,,
+20,oldwardrobe,closet,find,10,Старый шкаф,Древний дядин шкаф. Он скоро совсем развалится.,container,,thing,,damaged,3,obstacle,,old,,,,,,,,,,,,,,
+21,chest,,find,10,Древний сундук,"Похоже, что этот сундук не открывали десятки лет.",container,,thing,,,,,,,,,,,,,,,,,,,,2
+22,garbagecollector,trash,find,10,Мусорный бак,Грязный старый бак. Ничего примечательного.,container,,thing,,,,,,,,,,,,,,,,,,,,2
+23,lostwallet,wallet,find,5,Потерянный кошелек,Увесистый кошель. Наверняка в нем что-нибудь ценное.,container,,thing,,use,,,,,,,,,,,,,,,,,,2
+24,closet,closet,find,10,Заставленный Чулан,,place,,container,,closed,,obstacle,,,,,,,,,,,,,,,,
+25,garbage,trash,find,15,Мусор,,decomposition,5,thing,,useless,,,,,,,,,,,,,,,,,,
+26,creak,phenomenon,room_surprise,10,Тихий скрип,"Звук, похожий на скрип дверцы. Надеюсь, это просто сквозняк.",move,1,phenomenon,,,,,,,,,,,,,,,,,,,,
+27,madness,illness,madness_group,10,Безумие,"Подсознательное становится сознательным. Чем больше безумия я буду чувствовать, тем быстрее сойду с ума.",place,,,,,,,,,,,,,,,,,,,,,,
+28,catacomb,,second_place,10,Канализация,Зловонная сеть темных туннелей под городом. Они уходят глубоко под землю. Мне тяжело долго здесь находится.,move,5,sickness,3,place,,,,,,,,,,,,,,,,,,
+29,weakness,,,10,Слабость,Моя работа изводит меня. Мне нужно найти какую-то поддержку или лекарство.,place,,environment,,,,,,,,,,,,,,,,,,,,
+30,pharmacy,place,second_place,10,Аптека,"Ассортимент в этой лавочке невелик, но для головной боли или пореза руки средства здесь найдутся.",place,,environment,,real,,,,,,,,,,,,,,,,,,
+31,wood,thicket,second_place,10,Древний Лес,Листья многовековых деревьев польностью закрывают солнечный свет.,move,3,place,,inhabited,,old,,,,,,,,,,,,,,,,
+32,acolyte,char,,10,Аколит Джек,"Этот человек явно знает больше, чем говорит. Его глаза горят безумием, а губы шепчут неразборчивые фразы.",move,5,person,,mind,,secret,,,,,,,,,,,,,,,,
+33,artefact,scull,,10,Реликт,"Я чувствую, что эта вещь необычайна и связана с тайными магическими практиками.",thing,,mystic,,old,,,,,,,,,,,,,,,,,,
+34,find_spell,read,,10,Книга привлечения пути,"В описании сказано, что таинство привлечения способно показать тебе путь до цели.",thing,,meaning,,,,,,,,,,,,,,,,,,,,
+35,book_closet,closet,,10,Книжный шкаф,"Полки этого шкафа полностью заполнены книгами. Нужно разобрать его, пока он совсем не развалился.",container,,damaged,,old,5,,,,,,,,,,,,,,,,,
+36,trash_pack,trash,,10,Мусорный бак,Грязный бак прямо перед моей дверью. Он притягивает крыс и дурные слухи.,container,,useless,,decomposition,4,,,,,,,,,,,,,,,,,
+36,general_book,read,books,10,Книга Пробуждения,Старая книга моего дяди. В них путанные рамышления о мистическе. Авторство Дж.Р.Уолта.,thing,,meaning,,old,5,,,,,,,,,,,,,,,,,
+36,general_book2,read,books,10,Книга Пути,Старая книга моего дяди. В них путанные рамышления о мистическе. Авторство К.Сникет,thing,,meaning,,old,5,,,,,,,,,,,,,,,,,
+36,general_book3,read,books,10,Книга Прозрения,Старая книга моего дяди. В них путанные рамышления о мистическе. Автор Д. Шварцгольд,thing,,meaning,,old,5,,,,,,,,,,,,,,,,,
+36,newspaper,newspaper,trash,10,Газета,Вчерашний еженедельник.,thing,,meaning,,old,2,,,,,,,,,,,,,,,,,

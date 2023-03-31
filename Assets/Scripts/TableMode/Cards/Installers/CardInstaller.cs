@@ -27,7 +27,7 @@ namespace TableMode
                 .NonLazy();
 
             Container.Bind<IHoverActionCardsController>()
-                .To<HoverActionEntityCardsController>()
+                .To<HoverActionCardsController>()
                 .AsSingle()
                 .NonLazy();
             

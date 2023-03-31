@@ -12,9 +12,20 @@ namespace TableMode
         public IDictionary<string, int> AntiAspectsToAdd { get; }
         public IEnumerable<string> AspectsToDelete { get; }
         public IEnumerable<string> AntiAspectsToDelete { get; }
+        public string Log { get; }
         public bool IsEntityCardDestroyed { get; }
 
-        public MergeResult(string entityCardIdToAdd, string actionCardIdToAdd, KeyValuePair<string, int> actionsFromGroupToAdd, KeyValuePair<string, int> entitiesFromGroupToAdd, IDictionary<string, int> aspectsToAdd, IDictionary<string, int> antiAspectsToAdd, IEnumerable<string> aspectsToDelete, IEnumerable<string> antiAspectsToDelete, bool isEntityCardDestroyed)
+        public MergeResult(
+            string entityCardIdToAdd, 
+            string actionCardIdToAdd, 
+            KeyValuePair<string, int> actionsFromGroupToAdd, 
+            KeyValuePair<string, int> entitiesFromGroupToAdd, 
+            IDictionary<string, int> aspectsToAdd, 
+            IDictionary<string, int> antiAspectsToAdd, 
+            IEnumerable<string> aspectsToDelete, 
+            IEnumerable<string> antiAspectsToDelete, 
+            bool isEntityCardDestroyed, 
+            string log)
         {
             EntityCardIdToAdd = entityCardIdToAdd;
             ActionCardIdToAdd = actionCardIdToAdd;
@@ -25,6 +36,7 @@ namespace TableMode
             AspectsToDelete = aspectsToDelete;
             AntiAspectsToDelete = antiAspectsToDelete;
             IsEntityCardDestroyed = isEntityCardDestroyed;
+            Log = log;
         }
     }
 }

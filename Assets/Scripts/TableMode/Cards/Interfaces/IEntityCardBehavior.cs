@@ -5,7 +5,6 @@ namespace TableMode
 {
     public interface IEntityCardBehavior : ICardBehavior
     {
-        //TODO
         IEntityCard EntityCard { get; }
 
         public void Init(

@@ -12,6 +12,7 @@ namespace TableMode
         public IDictionary<string, int> AntiAspectsToAdd { get; }
         public IEnumerable<string> AspectsToDelete { get; }
         public IEnumerable<string> AntiAspectsToDelete { get; }
+        public string Log { get; }
         public bool IsEntityCardDestroyed { get; }
         public bool IsActionCardDestroyed { get; }
 
@@ -25,7 +26,7 @@ namespace TableMode
             KeyValuePair<string, int> actionsFromGroupToAdd, 
             IDictionary<string, int> antiAspectsToAdd, 
             IEnumerable<string> antiAspectsToDelete, 
-            bool isActionCardDestroyed)
+            bool isActionCardDestroyed, string log)
         {
             EntityCardIdToAdd = entityCardIdToAdd;
             ActionCardIdToAdd = actionCardIdToAdd;
@@ -37,6 +38,7 @@ namespace TableMode
             AntiAspectsToAdd = antiAspectsToAdd;
             AntiAspectsToDelete = antiAspectsToDelete;
             IsActionCardDestroyed = isActionCardDestroyed;
+            Log = log;
         }
     }
 }

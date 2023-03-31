@@ -5,6 +5,7 @@ namespace TableMode
     public interface IActionCardModel
     {
         public string Id { get; }
+        public string Asset { get; }
         public string Group { get; }
         public int Chance { get; }
         public string Name { get; }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
+using UnityEngine;
 
 namespace TableMode
 {
@@ -11,8 +13,9 @@ namespace TableMode
         private readonly IHandController _handController;
         private readonly IRuleController _ruleController;
         private readonly ITableController _tableController;
-        private readonly IAspectFactory _aspectFactory;
+        private readonly IAspectViewFactory _aspectViewFactory;
         private readonly IMergeStorage _mergeStorage;
+        private readonly IUIController _uiController;
         private readonly IInputController _inputController;
 
         public MergeController(
@@ -21,8 +24,9 @@ namespace TableMode
             IHandController handController,
             IRuleController ruleController,
             ITableController tableController,
-            IAspectFactory aspectFactory,
-            IMergeStorage mergeStorage)
+            IAspectViewFactory aspectViewFactory,
+            IMergeStorage mergeStorage,
+            IUIController uiController)
         {
             _moveActionCardsController = moveActionCardsController;
             _cardSpawner = cardSpawner;
@@ -30,8 +34,9 @@ namespace TableMode
             _handController = handController;
             _ruleController = ruleController;
             _tableController = tableController;
-            _aspectFactory = aspectFactory;
+            _aspectViewFactory = aspectViewFactory;
             _mergeStorage = mergeStorage;
+            _uiController = uiController;
             _moveActionCardsController.OnActionCardDrop += MoveActionControllerOnActionCardDrop;
         }
 
@@ -70,6 +75,8 @@ namespace TableMode
 
             foreach (var aspectId in aspects)
                 entityCard.DisableAspect(aspectId);
+            
+            entityCard.UpdateGradient();
 
             var mergeTrigger = new MergeTrigger(
                 entityCard.Id,
@@ -77,40 +84,50 @@ namespace TableMode
                 aspects,
                 0);
 
+            Debug.Log(JsonConvert.SerializeObject(mergeTrigger));
+            
             _handController.RemoveCard(actionCard);
             
-            var result = _ruleController.GetResult(mergeTrigger);
-            if (result == null) return;
+            var mergeResult = _ruleController.GetResult(mergeTrigger);
+            
+            
+
+            if (mergeResult == null) return;
     
+            _uiController.PushLogMerge(actionCard.Name, entityCard.Name, mergeResult.Log);            
+            
             var currentTableSlot = _tableController.GetSlotPositionByEntityCardView(entityCard);
 
-            if (result.AspectsToAdd.Any())
+            if (mergeResult.AspectsToAdd.Any())
             {
-                foreach (var addedAspect in result.AspectsToAdd)
-                    entityCard.AddAspect(
-                        _aspectFactory.Create(addedAspect.Key, addedAspect.Value)
-                        );
+                foreach (var addedAspect in mergeResult.AspectsToAdd)
+                    entityCard.AddAspect(_aspectViewFactory.CreateAspect(addedAspect.Key, addedAspect.Value));
             }
 
-            if (result.AspectsToDelete.Any())
+            if (mergeResult.AspectsToDelete.Any())
             {
-                foreach (var aspectId in result.AspectsToDelete)
+                foreach (var aspectId in mergeResult.AspectsToDelete)
                     entityCard.RemoveAspect(aspectId);
             }
 
-            if (!string.IsNullOrWhiteSpace(result.EntityCardIdToAdd))
-                _cardSpawner.SpawnEntity(result.EntityCardIdToAdd, currentTableSlot);
+            if (!string.IsNullOrWhiteSpace(mergeResult.EntityCardIdToAdd))
+                _cardSpawner.SpawnEntity(mergeResult.EntityCardIdToAdd, currentTableSlot);
 
-            if (!string.IsNullOrWhiteSpace(result.ActionCardIdToAdd))
-                _cardSpawner.SpawnActionCardById(result.ActionCardIdToAdd, currentTableSlot);
+            if (!string.IsNullOrWhiteSpace(mergeResult.ActionCardIdToAdd))
+                _cardSpawner.SpawnActionCardById(mergeResult.ActionCardIdToAdd, currentTableSlot);
 
-            if (result.EntitiesFromGroupToAdd.Value > 0)
+            
+            
+            if (mergeResult.EntitiesFromGroupToAdd.Value > 0)
+            {
+                
                 _cardSpawner.SpawnEntities(
-                    result.EntitiesFromGroupToAdd.Key,
-                    result.EntitiesFromGroupToAdd.Value,
+                    mergeResult.EntitiesFromGroupToAdd.Key,
+                    mergeResult.EntitiesFromGroupToAdd.Value,
                     currentTableSlot);
+            }
 
-            if (result.IsEntityCardDestroyed)
+            if (mergeResult.IsEntityCardDestroyed)
                 _tableController.RemoveCard(entityCard);
         }
 

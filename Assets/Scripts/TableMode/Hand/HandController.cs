@@ -40,7 +40,6 @@ namespace TableMode
             foreach (var actionCardView in _handCards)
             {
                 actionCardView.Move(positions[i++], true);
-                actionCardView.Rotate(0f);
             }
         }
 
@@ -55,15 +54,7 @@ namespace TableMode
         public void NextStep()
         {
             foreach (var actionCardView in _handCards)
-            {
-                foreach (var aspect in actionCardView.Aspects)
-                    aspect.Update();
-
-                foreach (var antiAspect in actionCardView.AntiAspects)
-                    antiAspect.Update();
-
                 actionCardView.NextStep();
-            }
         }
 
         public void TakeCard(IActionCardView card)

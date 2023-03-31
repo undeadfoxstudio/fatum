@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
+using UnityEngine;
 
 namespace TableMode
 {
@@ -25,19 +27,24 @@ namespace TableMode
 
         private IDictionary<IMergeResult, int> GetRightResults(IMergeTrigger mergeTrigger)
         {
+            Debug.Log(JsonConvert.SerializeObject(mergeTrigger));
+            
             var results = new Dictionary<IMergeResult, int>();
             var mergeRuleModels = _contentProvider.MergeRuleModels();
-
+           
             foreach (var mergeRuleModel in mergeRuleModels)
             {
+                
+                Debug.Log("111");
                 if (mergeRuleModel.Trigger.Action != mergeTrigger.Action &&
                     !string.IsNullOrEmpty(mergeRuleModel.Trigger.Action))
                     continue;
-                
+                Debug.Log("222");
+                Debug.Log(JsonConvert.SerializeObject(mergeRuleModel));
                 if (mergeRuleModel.Trigger.Entity != mergeTrigger.Entity &&
                     !string.IsNullOrEmpty(mergeRuleModel.Trigger.Entity))
                     continue;
-
+                Debug.Log("333");
                 var weight = 0;
 
                 if (mergeTrigger.Action == mergeRuleModel.Trigger.Action) weight += 10;

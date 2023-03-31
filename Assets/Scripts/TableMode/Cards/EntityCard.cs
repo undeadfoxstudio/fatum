@@ -7,20 +7,22 @@ namespace TableMode
     {
         public string Id { get; }
         public string Name { get; }
+        public string Description { get; }
         public IList<IAspect> Aspects { get; set; }
         public IList<IAspect> AntiAspects { get; set; }
-        public IList<IAspect> HiddenAspects { get; set; }
 
         public EntityCard(
             string id, 
             string name, 
             IList<IAspect> aspects,
-            IList<IAspect> antiAspects)
+            IList<IAspect> antiAspects,
+            string description)
         {
             Id = id;
             Name = name;
             Aspects = aspects;
             AntiAspects = antiAspects;
+            Description = description;
         }
 
         public void NextStep()

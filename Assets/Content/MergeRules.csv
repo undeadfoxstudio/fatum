@@ -1,67 +1,41 @@
-number,entity,action,aspect1,aspect2,aspect3,aspect4,aspect5,aspect6,weight,addEntity,addAction,addActionsFromGroup,countNewActions,addEntitiesFromGroup,countNewEntities,addAspect1,aspect1Time,addAspect2,addAspect2Time,addAntiAspect1,addAntiAspect1Time,addAntiAspect2,addAntiAspect2Time,deleteAspect1,deleteAspect2,deleteAntiAspect1,deleteAntiAspect2,deleteEntity
-1,cemetery,explore_environment,,,,,,,1,,,,,cemetery,1,,,,,,,,,,,,,1
-2,black_cat,remove_spell,,,,,,,,,,,,black_cat,1,,,,,,,,,,,,,1
-3,master_key,use,,,,,,,2,,open_lock,,,,,,3,,,,,,,,,,,1
-4,stone,use,,,,,,,1,,throw_stone,,,,,,,,,,,,,,,,,1
-5,compromising_evidence,deduction,,,,,,,1,,expose,,,,,,,,,,,,,,,,,1
-6,bills,deduction,,,,,,,1,,expose,,,,,,,,,,,,,,,,,1
-7,left_leg,curiosity,,,,,,,,,,,,leg_curiosity,1,,,,,,,,,,,,,
-8,right_leg,curiosity,,,,,,,,,,,,leg_curiosity,1,,,,,,,,,,,,,
-9,left_hand,curiosity,,,,,,,,,,,,hand_curiosity,1,,,,,,,,,,,,,
-10,right_hand,curiosity,,,,,,,,,,,,hand_curiosity,1,,,,,,,,,,,,,
-11,head,curiosity,,,,,,,,,,,,head_curiosity,1,,,,,,,,,,,,,
-12,astral_projection,curiosity,,,,,,,,,,,,astral_curiousity,1,,,,,,,,,,,,,
-13,left_leg,determination,,,,,,,,,,,,leg_determination,1,,,,,,,,,,,,,
-14,right_leg,determination,,,,,,,,,,,,leg_determination,1,,,,,,,,,,,,,
-15,left_hand,determination,,,,,,,,,,,,hand_determination,1,,,,,,,,,,,,,
-16,right_hand,determination,,,,,,,,,,,,hand_determination,1,,,,,,,,,,,,,
-17,head,determination,,,,,,,,,,,,head_determination,1,,,,,,,,,,,,,
-18,astral_projection,determination,,,,,,,,,,,,astral_determination,1,,,,,,,,,,,,,
-19,left_leg,destruction,,,,,,,,,,,,leg_destruction,1,,,,,,,,,,,,,
-20,right_leg,destruction,,,,,,,,,,,,leg_destruction,1,,,,,,,,,,,,,
-21,left_hand,destruction,,,,,,,,,,,,hand_destruction,1,,,,,,,,,,,,,
-22,right_hand,destruction,,,,,,,,,,,,hand_destruction,1,,,,,,,,,,,,,
-23,head,destruction,,,,,,,,,,,,head_destruction,1,,,,,,,,,,,,,
-24,astral_projection,destruction,,,,,,,,,,,,astral_destruction,1,,,,,,,,,,,,,
-25,left_leg,concentration,,,,,,,,,,,,leg_concentration,1,,,,,,,,,,,,,
-26,right_leg,concentration,,,,,,,,,,,,leg_concentration,1,,,,,,,,,,,,,
-27,left_hand,concentration,,,,,,,,,,,,hand_concentration,1,,,,,,,,,,,,,
-28,right_hand,concentration,,,,,,,,,,,,hand_concentration,1,,,,,,,,,,,,,
-29,head,concentration,,,,,,,,,,,,head_concentration,1,,,,,,,,,,,,,
-30,astral_projection,concentration,,,,,,,,,,,,astral_concentration,1,,,,,,,,,,,,,
-31,left_leg,inspiration,,,,,,,,,,,,leg_inspiration,1,,,,,,,,,,,,,
-32,right_leg,inspiration,,,,,,,,,,,,leg_inspiration,1,,,,,,,,,,,,,
-33,left_hand,inspiration,,,,,,,,,,,,hand_inspiration,1,,,,,,,,,,,,,
-34,right_hand,inspiration,,,,,,,,,,,,hand_inspiration,1,,,,,,,,,,,,,
-35,head,inspiration,,,,,,,,,,,,head_inspiration,1,,,,,,,,,,,,,
-36,astral_projection,inspiration,,,,,,,,,,,,astral_inspiration,1,,,,,,,,,,,,,
-37,left_leg,loneliness,,,,,,,,,,,,leg_loneliness,1,,,,,,,,,,,,,
-38,right_leg,loneliness,,,,,,,,,,,,leg_loneliness,1,,,,,,,,,,,,,
-39,left_hand,loneliness,,,,,,,,,,,,hand_loneliness,1,,,,,,,,,,,,,
-40,right_hand,loneliness,,,,,,,,,,,,hand_loneliness,1,,,,,,,,,,,,,
-41,head,loneliness,,,,,,,,,,,,head_loneliness,1,,,,,,,,,,,,,
-42,astral_projection,loneliness,,,,,,,,,,,,astral_loneliness,1,,,,,,,,,,,,,
-43,q1_old_lady_1,open_memories,,,,,,,1,q1_memory_cat,,,,,,,,,,,,,,,,,,0
-44,q1_old_lady_1,talk,,,,,,,1,q1_neighbor,,,,,,,,,,,,,,,,,,0
-45,q1_neighbor,talk,,,,,,,1,q1_tree,,,,,,,,,,,,,,,,,,0
-46,q1_neighbor,deduction,,,,,,,1,q1_cemetry,,,,,,,,,,,,,,,,,,0
-47,q1_cemetry,explore_environment,,,,,,,1,q1_graveyard_keeper,,,,,,,,,,,,,,,,,,
-48,q1_cemetry,look_into_darkness,,,,,,,1,q1_ritual_circle,,,,,,,,,,,,,,,,,,
-49,q1_graveyard_keeper,talk,,,,,,,1,q1_ritual_circle,,,,,,,,,,,,,,,,,,
-50,q1_tree,explore_environment,,,,,,,1,,,,,q1_tree,2,,,,,,,,,,,,,1
-51,q1_wool_tuft,deduction,,,,,,,2,,take_trail,,,,,,,,,,,,,,,,,1
-52,q1_yard_dog,take_trail,,,,,,,2,q1_ritual_circle,,,,,,,,,,,,,,,,,,1
-53,q1_ritual_circle,explore_environment,,,,,,,2,q1_dead_cat,,,,,,,,,,,,,,,,,,0
-54,q1_ritual_circle,simple_spell,,,,,,,2,,reanimate,,,,,,,,,,,,,,,,,0
-,,,place,environment,,,,,,,,,,place_environment,1,,,,,,,,,,,,,1
-,,,place,magic,,,,,,,,,,place_magic,1,,,,,,,,,,,,,1
-,,,place,obstacle,,,,,,,,,,,,,,,,,,,,obstacle,,,,0
-,,,place,secret,,,,,,,,,,place_secret,1,,,,,,,,,,,,,1
-,,,place,image,,,,,,,,,,place_image,1,,,,,,,,,,,,,1
-,,,place,inhabited,,,,,,,,,,place_inhabited,1,,,,,,,,,,,,,1
-,,,place,nature,,,,,,,,,,place_nature,1,,,,,,,,,,,,,1
-,,,environment,building,,,,,,,,,,environment_building,1,,,,,,,,,,,,,1
-,,,place,dark_soul,,,,,,,,,,place_dark_soul,1,,,,,,,,,,,,,1
-,,,place,curse,,,,,,,,,,place_curse,1,,,,,,,,,,,,,1
-,,,complex,closed,,,,,,,,,,complex_closed,1,,,,,,,,,,,,,1
-,,,mind,person,,,,,,,,,,mind_person,1,,,,,,,,,,,,,1
+number,entity,action,aspect1,aspect2,aspect3,aspect4,aspect5,aspect6,weight,addEntity,addAction,addActionsFromGroup,countNewActions,addEntitiesFromGroup,countNewEntities,addAspect1,aspect1Time,addAspect2,addAspect2Time,addAntiAspect1,addAntiAspect1Time,addAntiAspect2,addAntiAspect2Time,deleteAspect1,deleteAspect2,deleteAntiAspect1,deleteAntiAspect2,deleteEntity,log
+1,hands,curiosity,stimulus,,,,,,,,extract,,,,,,,,,,,,,,,,,,В дядином особняке множество шкафов и сундуков. Наверняка в них много полезного.
+2,legs,curiosity,stimulus,,,,,,,,meet,,,,,,,,,,,,,,,,,,Жители этого города не доверяют мне. Я должен втереться к ним в доверие.
+3,head,curiosity,stimulus,,,,,,,,inspect,,,,,,,,,,,,,,,,,,"В этом городе постоянный туман. Он скрывает мелкие детали, которые могут быть ценными уликами."
+4,hands,determination,stimulus,,,,,,,,use,,,,,,,,,,,,,,,,,,"Местные жители достаточно старомодны. Они не используют механизмы, сложнее напольных часов."
+5,legs,determination,stimulus,,,,,,,,overcome,,,,,,,,,weakness,2,,,,,,,,"Местность вокруг дома очень пересеченная. В самом городе улицы извилисты и, зачастую, с большими уклонами."
+6,head,determination,stimulus,,,,,,,,accept,,,,,,,,,,,,,,,,,,Местные все чаще посещают мое тайное детективное агентство. Я должен грамотно подбирать своих клиентов.
+7,hands,destruction,stimulus,,,,,,,,punch,,,,,,,,,weakness,2,,,,,,,,"Если горожане соберутся поднять меня на вилы, я буду готов к этому."
+8,head,destruction,stimulus,,,,,,,,threaten,,,,,,,,,anxiety,2,,,,,,,,"Некоторые подозреваемые не понимают ничего, кроме языка силы."
+9,legs,destruction,stimulus,,,,,,,,kick,,,,,,,,,weakness,2,,,,,,,,В трудной ситуации ты можешь унести ноги или отбиться ими от преследователей.
+10,head,concentration,stimulus,,,,,,,,read,,,,,,,,,,,,,,,,,,Старые книги требует времени и внимания. Они могут открыть мне новые мистические пути в расследованиях.
+11,hands,concentration,stimulus,,,,,,,,hack,,,,,,,,,anxiety,2,,,,,,,,"Не хочу вспоминать свою прошлую жизнь на улицах, когда я промышлял кражами и взломом."
+12,legs,concentration,stimulus,,,,,,,,go,,,,,,,,,,,,,,,,,,"Этот город - настоящий лабиринт, а местные жители умеют хранить свои секреты. В темных переулках сокрыто немало тайных путей, доступных лишь посвященным. "
+13,hands,inspiration,stimulus,,,,,,,,recover,,,,,,,,,,,,,,,,,,"Не уверен, что это место подлежит восстановлению, но если не заниматься этим - крыша упадет мне на голову."
+14,head,inspiration,stimulus,,,,,,,,create,,,,,,,,,distraction,2,,,,,,,,"Все эти бесконечные темные истории: посвященные, практикующие мистические ритуалы и сектанты, пытающиеся нажиться на простых жителях. Мне нужно не забывать, что в мире еще осталась красота."
+15,legs,inspiration,stimulus,,,,,,,,behold,,,,,,,,,distraction,2,,,,,,,,"Город приобретает объем. Мне нравится отслеживать, как узкие улочки переплетают темные жилые дома и расходятся по окрестностям узкими тропками. "
+16,hands,loneliness,stimulus,,,,,,,,takeapart,,,,,,,,,,,,,,,,,,"Мои записи хорошо помогают раскрывать преступления. Также они помогут мне отличить реальность от фантазии, когда мистические силы проникнут в мой дом."
+17,head,loneliness,stimulus,,,,,,,,talk,,,,,sadness,5,,,,,,,,,,,,"Горожане угрюмы и неразговорчивы. Я должен узнать их получше, чтобы они помогли мне открыть тайны этого места."
+18,legs,loneliness,stimulus,,,,,,,,approach,,,,,,,,,,,,,,,,,,Соседи подозрительно относятся ко мне с тех пор как я въехал в этот дом. Нужно работать с их отношением ко мне.
+19,head,talk,mind,,,,,,,,,,,,,,,,,,,,,sadness,,,,,"<i> - Связан ли мой переезд в этот город с одним моим старым расследованием или я просто бегу от своего прошлого? Я уверен, что все мои нераскрытые дела связаны с чем-то мистическим. С чем-то, что выше моего понимания. Движет ли мной желание мести или это тяга к постижению мироустройста? Город знает ответы на все вопросы, я должен идти дальше, иначе травмы прошлого сведут меня с ума.</i>"
+20,head,accept,mind,,,,,,,,,,,,,,,,,,,,,sadness,,,,,"На грусть нет времени. Мир таинственен и удивителен, это воодушевляет меня идти дальше."
+21,head,threaten,mind,,,,,,,madness,,,,,,,,,,,,,,,,,,,"Я слишком глуп и нерасторопен, чтобы собрать картину происходящего! Если я не потороплюсь, все эти таинственные силы сведут меня с ума."
+22,mystreet,meet,place,inhabited,,,,,,,,,,passers,1,,,,,,,,,,,,,,Моя улица оканчивается тупиком. Днем я выбираюсь до центра города и наблюдаю за жителями.
+23,mystreet,go,place,,,,,,,wood,,,,,,,,,,,,,,,,,,,"Округа города ничем не примечательна, за исключением дремучего леса на севере."
+24,passer,talk,mind,,,,,,,,,,,,,,,,,,,,,,,,,,<i> - О чем вы хотите поговорить? Я вас не знаю. </i>
+25,passer,approach,,,,,,,,acolyte,,,,,,,,,,,,,,,,,,1,"Прохожий представился Аколитом Джеком. Он может быть первым проводником в ту таинственную часть города, что я ищу. Нужно аккуратно подбирать слова."
+26,acolyte,talk,,,,,,,,,,,,,,,,request,,,,,,,,,,,"<i>Мы знаем кто ты такой. Ересиарх Магнус не доверяет тебе. Но он готов дать один  шанс, если ты принесешь ему нужную вещь.</i>"
+27,acolyte,approach,,,,,,,,,,,,,,mystic,,request,,,,,,,,,,,"<i>Я думаю, что ты нам подходишь. Ты ведь тоже чувствуешь зов Той Стороны? Принеси Ересиарху Магнусу какой-нибудь мистический предмет. Он примет твою плату и убедится в твоих способностях.</i>"
+28,acolyte,pay,,,,,,,,,pay,,,,,,,,,,,,,,,,,,Ты не сможешь заинтересовать Ересиарха этой ерундой. Найди что-нибудь получше.
+29,acolyte,pay_mystic,,,,,,,,find_spell,,,,,,,,,,,,,,,,,,,"То, что нужно! Ересиарх Магнус пока не готов с тобой встретиться, но он решил поделиться своим таинством с тобой."
+30,find_spell,read,,,,,,,,,,,,,,astral,,,,,,,,,,,,,<i>Освободи разум и впусти в свое сердце непостижимых птиц буревестников. Воображение откроет тебе путь к цели. Но будь осторожен на этой астральной дороге - за тобой наблюдают.</i>
+31,book_closet,extract,,,,,,,,,,,,books,1,,,,,,,,,,,,,,"В детстве меня часто оставляли в дядином дома на каникулы. По ночам я брал книги из его комнаты и зачитывался мистическими историями, словно это были детские сказки."
+32,book_closet,hack,,,,,,,,,,,,books,1,,,,,,,,,,,,,,"У книжного шкафа нет замка и даже дверцы. Книги свалены в одно кучу, но верхние талмуды можно вытащить без страха обрушения."
+33,mysteypurchant,accept,,,,,,,,,,,,,,move,15,,,,,,,,,,,,"<i>Вас заинтересовало мое предложение? Чем вы будете расплачиваться? Я подожду.</i>"
+34,rat,kick,,,,,,,,,,,,,,,,,,,,,,,,,,1,"Крыса с визгом убегает."
+34,rat2,kick,,,,,,,,,,,,,,,,,,,,,,,,,,1,"Крыса с визгом убегает."
+34,rat3,kick,,,,,,,,,,,,,,,,,,,,,,,,,,1,"Крыса с визгом убегает."
+34,book_closet,recover,,,,,,,,,,,,,,old,15,,,,,,,,,,,,"Какое-то время этот шкаф еще простоит, но мне нужны инструменты? чтобы полностью его починить."
+34,trash_pack,extract,,,,,,,,newspaper,,,,,,,,,,,,,,,,,,,"Унизительное занятие для почетного гражданина, но для детектива - это источник полезной информации."
+34,newspaper,inspect,,,,,,,,,,,,,,,,,,,,,,,,,,,"<i>Провинциальная ежедневная газета, в ней пишут прогноз погоды и некрологи жителей.</i>"
+34,newspaper,read,,,,,,,,,,,,,,,,,,,,,,,,,,,"<i>В нашем городе прошел уникальный городской фестиваль, посвященный культурному наследию города. Фестиваль предложил множество мероприятий и закончился впечатляющим шоу с фейерверком. </i>"

@@ -5,6 +5,7 @@ namespace TableMode
     public struct ActionCardModel : IActionCardModel
     {
         public string Id { get; }
+        public string Asset { get; }
         public string Group { get; }
         public int Chance { get; }
         public string Name { get; }
@@ -16,6 +17,7 @@ namespace TableMode
         public ActionCardModel
             (string id,
                 string group,
+                string asset,
                 string name,
                 string description,
                 IDictionary<string, int> aspects,
@@ -24,6 +26,7 @@ namespace TableMode
                 int chance)
         {
             Id = id;
+            Asset = asset;
             Group = group;
             Name = name;
             Description = description;

@@ -46,10 +46,7 @@ namespace TableMode
                     Color.black);
             }
 
-            private void OnChange()
-            {
-
-            }
+            private void OnChange() {}
         }
     }
 }

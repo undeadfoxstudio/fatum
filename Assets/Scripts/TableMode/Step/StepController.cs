@@ -1,38 +1,58 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ModestTree;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace TableMode
 {
     public class StepController : IStepController
     {
+        private DateTime randomDate = new DateTime(1970, 3, 2);
+        private int _step;
+        
+        private readonly IUIController _iUIController;
         private readonly IHandController _handController;
         private readonly ICardSpawner _cardSpawner;
         private readonly ITableController _tableController;
-        private readonly IAspectController _aspectController;
-        private readonly IAspectFactory _aspectFactory;
-        private readonly StepController _stepController;
+        private readonly IAspectRuleProvider _aspectRuleProvider;
+        private readonly IAspectViewFactory _aspectViewFactory;
 
         public StepController(
-            IHandController handController, 
-            IUIBehavior iuiBehavior,
+            IUIController iUIController,
+            IHandController handController,
             ICardSpawner cardSpawner,
             ITableController tableController,
-            IAspectController aspectController,
-            IAspectFactory aspectFactory)
+            IAspectRuleProvider aspectRuleProvider,
+            IAspectViewFactory aspectViewFactory)
         {
+            _iUIController = iUIController;
             _handController = handController;
             _cardSpawner = cardSpawner;
             _tableController = tableController;
-            _aspectController = aspectController;
-            _aspectFactory = aspectFactory;
+            _aspectRuleProvider = aspectRuleProvider;
+            _aspectViewFactory = aspectViewFactory;
 
-            iuiBehavior.OnNextStep += ControlBehaviorOnNextStep;
+            _iUIController.OnNextStep += ControlBehaviorOnNextStep;
         }
 
         private void ControlBehaviorOnNextStep()
         {
+            _step++;
+
+            if (_step == 15)
+            {
+                _iUIController.ShowEndScreen();
+
+                return;
+            }
+
+            var newDate = randomDate.AddDays(_step).ToString("dddd, dd MMMM").FirstCharToUpper();
+            
+            _iUIController.SetNextStepLog(newDate);
+            _iUIController.PushLog(" ------ " + newDate + " ------ \n");
+
             _handController
                 .GetExpiredActionCards()
                 .ToList()
@@ -61,38 +81,58 @@ namespace TableMode
             {
                 removedAspects.Add(aspect.Id);
 
-                var currentAspectResults = _aspectController.GetEntityCardAspectResult(
+                _iUIController.PushLog(
+                    "Аспект  <color=blue>" +
+                    aspect.Name + "</color> (<color=red>" + 
+                    entityCardView.Name + 
+                    "</color>): истек. \n");
+
+                var currentAspectResults = _aspectRuleProvider.GetEntityCardAspectResults(
                     aspect,
                     entityCardView.Aspects.Where(a => a.Id != aspect.Id).ToList(),
                     entityCardView.Id);
 
                 if (!currentAspectResults.Any()) continue;
-
+                
                 allEntityCardAspectResults.AddRange(currentAspectResults);
 
                 if (currentAspectResults.Any(r => r.IsEntityCardDestroyed))
                     isCardDeleted = true;
             }
-
+            
             //remove aspects
             foreach (var entityCardAspectResult in allEntityCardAspectResults)
                 foreach (var aspectToDelete in entityCardAspectResult.AspectsToDelete)
                     entityCardView.RemoveAspect(aspectToDelete);
 
+            //remove antiAspects
+            foreach (var aspect in entityCardView.AntiAspects.Where(a => a.Count == 1).ToList())
+                entityCardView.RemoveAntiAspect(aspect.Id);
+            
+            //remove expired aspects
+            foreach (var removedAspect in removedAspects)
+                entityCardView.RemoveAspect(removedAspect);
+            
             //add aspects
             var addingAspects = allEntityCardAspectResults
                 .SelectMany(entityCardAspectResult => entityCardAspectResult.AspectsToAdd)
                 .ToDictionary(aspectGroup => aspectGroup.Key, keyValuePair => keyValuePair.Value);
 
             foreach (var aspectGroup in addingAspects)
-                entityCardView.AddAspect(_aspectFactory.Create(aspectGroup.Key, aspectGroup.Value));
+                entityCardView.AddAspect(_aspectViewFactory.CreateAspect(aspectGroup.Key, aspectGroup.Value + 1));
 
-            //should be before spawning new entities
+            //should be BEFORE spawning new entities
             var cardPosition = _tableController.GetSlotPositionByEntityCardView((IEntityCardView)entityCardView);
-            Debug.Log(cardPosition);
-            
-            if (isCardDeleted) _tableController.RemoveCard((IEntityCardView)entityCardView);
-            
+            if (isCardDeleted)
+            {
+                _iUIController.PushLog(
+                    "<color=red>" +
+                    entityCardView.Name + "</color> исчезает." +
+                    "\n");
+
+                _tableController.RemoveCard((IEntityCardView)entityCardView);
+            }
+
             //add new entity
             foreach (var entityCardAspectResult in allEntityCardAspectResults)
             {
@@ -126,9 +166,15 @@ namespace TableMode
             //collect all processed results
             foreach (var aspect in actionCardView.Aspects.Where(a => a.Count == 1))
             {
+                _iUIController.PushLog(
+                    "Аспект  <color=blue>" +
+                    aspect.Name + "</color> (<color=red>" + 
+                    actionCardView.Name + 
+                    "</color>): истек. \n");
+
                 removedAspects.Add(aspect.Id);
 
-                var currentAspectResults = _aspectController.GetActionCardAspectResult(
+                var currentAspectResults = _aspectRuleProvider.GetActionCardAspectResults(
                     aspect,
                     actionCardView.Aspects.Where(a => a.Id != aspect.Id).ToList(),
                     actionCardView.Id);
@@ -152,7 +198,7 @@ namespace TableMode
                 .ToDictionary(aspectGroup => aspectGroup.Key, keyValuePair => keyValuePair.Value);
 
             foreach (var aspectGroup in addingAspects)
-                actionCardView.AddAspect(_aspectFactory.Create(aspectGroup.Key, aspectGroup.Value));
+                actionCardView.AddAspect(_aspectViewFactory.CreateAspect(aspectGroup.Key, aspectGroup.Value));
 
             //add new entity
             foreach (var actionCardAspectResult in allActionCardAspectResults)
@@ -175,9 +221,25 @@ namespace TableMode
                     allActionCardAspectResult.ActionsFromGroupToAdd.Key,
                     allActionCardAspectResult.ActionsFromGroupToAdd.Value);
             }
-
+            
             //always should be last
-            if (isCardDeleted) _handController.RemoveCard((IActionCardView)actionCardView);
+            if (isCardDeleted)
+            {
+                Debug.Log("is Card Deleted");
+                _handController.RemoveCard((IActionCardView)actionCardView);
+            }
+        }
+    }
+    
+    public static class Extensions
+    {
+        public static string FirstCharToUpper(this string str)
+        {
+            if (String.IsNullOrEmpty(str)) {
+                throw new ArgumentException("Input string is empty!");
+            }
+ 
+            return str.First().ToString().ToUpper() + String.Concat(str.Skip(1));
         }
     }
 }

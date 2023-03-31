@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Image = UnityEngine.UI.Image;
@@ -8,16 +9,26 @@ namespace TableMode
     public class EntityCardBehavior : MonoBehaviour, IEntityCardBehavior, IDisposable
     {
         [SerializeField] private TextMeshPro _caption;
-        [SerializeField] private TextMeshPro _aspects;
         [SerializeField] private BoxCollider _hoverCollider;
         [SerializeField] private BoxCollider _mergeCollider;
-        [SerializeField] private Image image;
-        [SerializeField] private GameObject hoverObject;
-
+        [SerializeField] private Image _gradientImage;
+        [SerializeField] private Image _blackMaskImage;
+        [SerializeField] private Image _whiteLineImage;
+        [SerializeField] private GameObject _hoverObject;
+        [SerializeField] private List<GameObject> _aspectSlots;
+        
         private Action<Collision> _onCollisionEnter;
         private Action _onCollisionExit;
 
         public event Action<IAspect> OnAspectOver;
+        public List<GameObject> slots => _aspectSlots;
+
+        public void SetSprite(SpritePack spritePack)
+        {
+            _whiteLineImage.sprite = spritePack.WhiteLines;
+            _blackMaskImage.sprite = spritePack.BlackMask;
+        }
+
         public Transform BehaviorTransform => transform;
         public Collider HoverCollider => _hoverCollider;
         public IEntityCard EntityCard { get; private set; }
@@ -38,22 +49,16 @@ namespace TableMode
         public void Draw()
         {
             _caption.text = EntityCard.Name;
-            _aspects.text = "";
+        }
 
-            foreach (var aspect in EntityCard.Aspects)
-            {
-                _aspects.text += aspect.IsActive ? "<color=\"white\">" : "<color=#383838>";
+        public void SetGradient(Texture2D texture2D)
+        {
+            var newSprite = Sprite.Create(
+                texture2D, new Rect(0.0f, 0.0f, texture2D.width, texture2D.height), 
+                new Vector2(0, 0), 
+                100.0f);
 
-                if (aspect.Count == 0)
-                    _aspects.text += aspect.Name + "\n";
-                else
-                    _aspects.text += aspect.Name + " (" + aspect.Count + ")\n";
-            }
-
-            foreach (var antiAspect in EntityCard.AntiAspects)
-            {
-                _aspects.text += "<color=\"red\">" + antiAspect.Name;
-            }
+            _gradientImage.sprite = newSprite;
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -68,12 +73,12 @@ namespace TableMode
 
         public void Hover()
         {
-            hoverObject.SetActive(true);
+            _hoverObject.SetActive(true);
         }
 
         public void UnHover()
         {
-            hoverObject.SetActive(false);
+            _hoverObject.SetActive(false);
         }
 
         public void SetState(CardReady cardReady)

@@ -5,6 +5,7 @@ namespace TableMode
     public struct EntityCardModel : IEntityCardModel
     {
         public string Id { get; }
+        public string Asset { get; }
         public string Group { get; }
         public int Chance { get; }
         public string Name { get; }
@@ -15,12 +16,14 @@ namespace TableMode
 
         public EntityCardModel
             (string id,
+                string asset,
                 string group,
                 string name,
                 string description,
                 IDictionary<string, int> aspects,
                 IDictionary<string, int> antiAspects,
-                int uniqueness, int chance)
+                int uniqueness, 
+                int chance)
         {
             Id = id;
             Group = group;
@@ -30,6 +33,7 @@ namespace TableMode
             AntiAspects = antiAspects;
             Uniqueness = uniqueness;
             Chance = chance;
+            Asset = asset;
         }
     }
 }

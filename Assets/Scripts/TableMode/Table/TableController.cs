@@ -63,7 +63,7 @@ namespace TableMode
         public void RemoveCard(IEntityCardView entityCard)
         {
             var entityKeyPair = _cardPositions.FirstOrDefault(c => c.Value == entityCard);
-            
+
             _cardPositions.Remove(entityKeyPair.Key);
             entityCard.Destroy();
         }

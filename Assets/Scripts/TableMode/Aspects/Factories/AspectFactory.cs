@@ -1,4 +1,6 @@
-﻿namespace TableMode
+﻿using UnityEngine;
+
+namespace TableMode
 {
     public class AspectFactory : IAspectFactory
     {
@@ -16,10 +18,20 @@
             return new Aspect(
                 aspectModel.Id,
                 aspectModel.Name,
-                aspectModel.Order)
+                aspectModel.Order,
+                aspectModel.Asset,
+                aspectModel.Description,
+                GenerateColor(aspectModel.Color))
             {
                 Count = count
             };
+        }
+
+        private Color GenerateColor(string color)
+        {
+            return ColorUtility.TryParseHtmlString("#" + color, out var newColor) 
+                ? newColor 
+                : Color.gray;
         }
     }
 }

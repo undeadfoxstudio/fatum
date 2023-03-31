@@ -51,9 +51,6 @@ namespace TableMode
                     _aspectRules = CSVReader.Read(_contentConfig.AspectRules.text)
                         .Select(GenerateAspectRuleContentByCSV)
                         .ToList();
-
-                    Debug.Log(JsonConvert.SerializeObject(_aspectRules));
-                    Debug.Log(_aspectRules.Count);
                 }
 
                 return _aspectRules;
@@ -68,6 +65,9 @@ namespace TableMode
                     _mergeRules = CSVReader.Read(_contentConfig.MergeRules.text)
                         .Select(GenerateMergeRuleContentByCSV)
                         .ToList();
+
+                Debug.Log(JsonConvert.SerializeObject(_contentConfig.MergeRules.text));
+                Debug.Log(JsonConvert.SerializeObject(_mergeRules));
 
                 return _mergeRules;
             }
@@ -202,7 +202,8 @@ namespace TableMode
                     data.GetInt("countNewActions")),
                 antiAspectsToAdd,
                 antiAspectsToDelete,
-                IsActionCardDestroyed
+                IsActionCardDestroyed,
+                data.GetString("log")
                 );
         }
 
@@ -230,11 +231,13 @@ namespace TableMode
             return new AspectModel
             (
                 data.GetString("id"),
+                data.GetString("asset"),
                 data.GetInt("order"),
                 data.GetString("group"),
                 data.GetString("name"),
                 data.GetString("description"),
-                GenerateAspectResultByCSV(data)
+                GenerateAspectResultByCSV(data),
+                data.GetString("color")
             );
         }
 
@@ -269,6 +272,7 @@ namespace TableMode
             return new ActionCardModel(
                 data.GetString("id"),
                 data.GetString("group"),
+                data.GetString("asset"),
                 data.GetString("name"),
                 data.GetString("description"),
                 aspects,
@@ -308,6 +312,7 @@ namespace TableMode
 
             return new EntityCardModel(
                 data.GetString("id"),
+                data.GetString("asset"),
                 data.GetString("group"),
                 data.GetString("name"),
                 data.GetString("description"),
@@ -353,15 +358,16 @@ namespace TableMode
                 data.GetString("addAction"),
                 new KeyValuePair<string, int>(
                     data.GetString("addEntitiesFromGroup"),
-                    data.GetInt("countNewEntities")),
-                new KeyValuePair<string, int>(
-                    data.GetString("addActionsFromGroup"),
                     data.GetInt("countNewActions")),
+                new KeyValuePair<string, int>(
+                    data.GetString("addEntitiesFromGroup"),
+                    data.GetInt("countNewEntities")),
                 aspectsToAdd,
                 antiAspectsToAdd,
                 aspectsToDelete,
                 antiAspectsToDelete,
-                IsEntityCardDestroyed
+                IsEntityCardDestroyed,
+                data.GetString("log")
                 );
         }
     }

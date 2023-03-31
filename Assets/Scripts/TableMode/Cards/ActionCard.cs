@@ -7,6 +7,7 @@ namespace TableMode
     {
         public string Id { get; }
         public string Name { get; }
+        public string Description { get; }
         public IList<IAspect> Aspects { get; set; }
         public IList<IAspect> AntiAspects { get; set; }
 
@@ -14,25 +15,23 @@ namespace TableMode
             string id, 
             IList<IAspect> aspects,
             IList<IAspect> antiAspects,
-            string name)
+            string name, 
+            string description)
         {
             Id = id;
             Aspects = aspects;
             AntiAspects = antiAspects;
             Name = name;
+            Description = description;
         }
         
-        public IList<string> UpdateAspects()
+        public void NextStep()
         {
-            var aspectsToDelete = Aspects
-                .Where(a => a.Count == 1)
-                .Select(a => a.Id);
-            
             Aspects
                 .Where(a => a.Count == 1)
                 .ToList()
                 .ForEach(a=>
-                    AntiAspects.Remove(a));
+                    Aspects.Remove(a));
 
             AntiAspects
                 .Where(a => a.Count == 1)
@@ -45,8 +44,6 @@ namespace TableMode
 
             foreach (var aspect in AntiAspects)
                 aspect.Update();
-
-            return aspectsToDelete.ToList();
         }
     }
 }
