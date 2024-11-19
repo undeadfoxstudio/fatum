@@ -16,7 +16,7 @@ namespace TableMode
         [SerializeField] private Image _whiteLineImage;
         [SerializeField] private GameObject _hoverObject;
         [SerializeField] private List<GameObject> _aspectSlots;
-        
+
         private Action<Collision> _onCollisionEnter;
         private Action _onCollisionExit;
 
