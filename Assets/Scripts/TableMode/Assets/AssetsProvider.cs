@@ -64,11 +64,11 @@ namespace TableMode
         {
             var path = Path.Combine(
                 _assetsConfig.AspectAssetsDirectory, 
-                name + _assetsConfig.AntiAspectNamePostfix);
+                name + _assetsConfig.InactiveAspectNamePostfix);
 
             var sprite = Resources.Load<Sprite>(path);
 
-            return sprite != null ? sprite : _assetsConfig.DefaultAntiAspect;
+            return sprite != null ? sprite : _assetsConfig.DefaultDisabledAspect;
         }
     }
 }

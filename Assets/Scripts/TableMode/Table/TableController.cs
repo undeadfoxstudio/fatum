@@ -9,7 +9,7 @@ namespace TableMode
     public class TableController : ITableController
     {
         private readonly ITableProvider _tableProvider;
-        private readonly Dictionary<Vector2Int, IEntityCardView> _cardPositions = new Dictionary<Vector2Int, IEntityCardView>();
+        private readonly Dictionary<Vector2Int, IEntityCardView> _cardPositions = new ();
 
         private Dictionary<Vector2Int, Vector3> FreeSlotPositions
         {
@@ -50,6 +50,14 @@ namespace TableMode
                 RemoveCard(t);
         }
 
+        public void Clear()
+        {
+            foreach (var entityCardView in _cardPositions)
+                entityCardView.Value.Destroy();
+
+            _cardPositions.Clear();
+        }
+
         public Vector3 TakeCard(IEntityCardView entityCardView)
         {
             var newSlotPosition = GetBestNearbySlot(entityCardView.Position);
@@ -80,6 +88,8 @@ namespace TableMode
                 c.Aspects.Any(a => a.Count == 1) ||
                 c.AntiAspects.Any(a => a.Count == 1));
         }
+
+        public IEnumerable<string> GetTableCardIds() => _cardPositions.Values.Select(c => c.Id).Distinct();
 
         public Vector2Int GetSlotPositionByEntityCardView(IEntityCardView entityCardView) =>
             _cardPositions.FirstOrDefault(c => c.Value == entityCardView).Key;

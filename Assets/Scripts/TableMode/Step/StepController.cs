@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using ModestTree;
-using Newtonsoft.Json;
 using UnityEngine;
 
 namespace TableMode
 {
     public class StepController : IStepController
     {
-        private DateTime randomDate = new DateTime(1970, 3, 2);
-        private int _step;
+        private readonly DateTime startDate = new (1970, 3, 2);
         
         private readonly IUIController _iUIController;
         private readonly IHandController _handController;
@@ -37,18 +36,12 @@ namespace TableMode
             _iUIController.OnNextStep += ControlBehaviorOnNextStep;
         }
 
-        private void ControlBehaviorOnNextStep()
+        private void ControlBehaviorOnNextStep(int step)
         {
-            _step++;
-
-            if (_step == 15)
-            {
-                _iUIController.ShowEndScreen();
-
-                return;
-            }
-
-            var newDate = randomDate.AddDays(_step).ToString("dddd, dd MMMM").FirstCharToUpper();
+            var newDate = startDate
+                .AddDays(step)
+                .ToString("dddd, dd MMMM", CultureInfo.CreateSpecificCulture("en-US"))
+                .FirstCharToUpper();
             
             _iUIController.SetNextStepLog(newDate);
             _iUIController.PushLog(" ------ " + newDate + " ------ \n");
@@ -63,9 +56,12 @@ namespace TableMode
                 .ToList()
                 .ForEach(ProcessEntityCardExpiredAspects);
 
-            if (!_handController.IsFull)
-                _cardSpawner.SpawnActionCardDefault();
+            var newCardNeed = _handController.CardNeeded;
 
+            for (var i = 0; i < newCardNeed; i++)
+            _cardSpawner.SpawnActionCardDefault();
+           // _cardSpawner.SpawnActionCardDefault();
+            
             _handController.NextStep();
             _tableController.NextStep();
         }
@@ -82,10 +78,10 @@ namespace TableMode
                 removedAspects.Add(aspect.Id);
 
                 _iUIController.PushLog(
-                    "Аспект  <color=blue>" +
+                    "Aspect  <color=blue>" +
                     aspect.Name + "</color> (<color=red>" + 
                     entityCardView.Name + 
-                    "</color>): истек. \n");
+                    "</color>): has expired. \n");
 
                 var currentAspectResults = _aspectRuleProvider.GetEntityCardAspectResults(
                     aspect,
@@ -127,7 +123,7 @@ namespace TableMode
             {
                 _iUIController.PushLog(
                     "<color=red>" +
-                    entityCardView.Name + "</color> исчезает." +
+                    entityCardView.Name + "</color> is disappearing." +
                     "\n");
 
                 _tableController.RemoveCard((IEntityCardView)entityCardView);
@@ -167,10 +163,10 @@ namespace TableMode
             foreach (var aspect in actionCardView.Aspects.Where(a => a.Count == 1))
             {
                 _iUIController.PushLog(
-                    "Аспект  <color=blue>" +
+                    "Aspect  <color=blue>" +
                     aspect.Name + "</color> (<color=red>" + 
                     actionCardView.Name + 
-                    "</color>): истек. \n");
+                    "</color>): has expired. \n");
 
                 removedAspects.Add(aspect.Id);
 
@@ -225,7 +221,6 @@ namespace TableMode
             //always should be last
             if (isCardDeleted)
             {
-                Debug.Log("is Card Deleted");
                 _handController.RemoveCard((IActionCardView)actionCardView);
             }
         }
@@ -239,7 +234,7 @@ namespace TableMode
                 throw new ArgumentException("Input string is empty!");
             }
  
-            return str.First().ToString().ToUpper() + String.Concat(str.Skip(1));
+            return str.First().ToString().ToUpper() + string.Concat(str.Skip(1));
         }
     }
 }

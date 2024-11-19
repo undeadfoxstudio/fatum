@@ -10,11 +10,11 @@ namespace TableMode
     {
         private readonly ContentConfig _contentConfig;
 
-        private List<IMergeRuleModel> _mergeRules = new List<IMergeRuleModel>();
-        private List<IAspectModel> _aspects = new List<IAspectModel>();
-        private List<IActionCardModel> _actionCards = new List<IActionCardModel>();
-        private List<IEntityCardModel> _entityCards = new List<IEntityCardModel>();
-        private List<IAspectRuleModel> _aspectRules = new List<IAspectRuleModel>();
+        private List<IMergeRuleModel> _mergeRules = new ();
+        private List<IAspectModel> _aspects = new ();
+        private List<IActionCardModel> _actionCards = new ();
+        private List<IEntityCardModel> _entityCards = new ();
+        private List<IAspectRuleModel> _aspectRules = new ();
 
         private IEnumerable<IActionCardModel> ActionCards
         {
@@ -46,13 +46,11 @@ namespace TableMode
         {
             get
             {
-                if (_aspectRules.Count == 0)
-                {
+                if (_aspectRules.Count == 0)                
                     _aspectRules = CSVReader.Read(_contentConfig.AspectRules.text)
                         .Select(GenerateAspectRuleContentByCSV)
                         .ToList();
-                }
-
+                
                 return _aspectRules;
             }
         }
@@ -65,9 +63,6 @@ namespace TableMode
                     _mergeRules = CSVReader.Read(_contentConfig.MergeRules.text)
                         .Select(GenerateMergeRuleContentByCSV)
                         .ToList();
-
-                Debug.Log(JsonConvert.SerializeObject(_contentConfig.MergeRules.text));
-                Debug.Log(JsonConvert.SerializeObject(_mergeRules));
 
                 return _mergeRules;
             }
@@ -119,6 +114,17 @@ namespace TableMode
                 .Select(e => e.Id)
                 .ToList();
 
+        public string GetRandomEntityIdFromGroup(string groupId, IList<string> exceptIds)
+        {
+            var ids = EntityCards
+                .Where(e => e.Group == groupId)
+                .Where(e => !exceptIds.Contains(e.Id))
+                .Select(c => c.Id)
+                .ToList();
+
+            return ids.Count > 0 ? ids.ElementAt(Random.Range(0, ids.Count)) : string.Empty;
+        }
+
         private IAspectRuleModel GenerateAspectRuleContentByCSV(Dictionary<string, object> data)
         {
             return new AspectRuleModel(
@@ -139,19 +145,19 @@ namespace TableMode
         {
             var aspects = new List<string>
             {
-                data.GetString("aspect1"),
-                data.GetString("aspect2"),
-                data.GetString("aspect3"),
-                data.GetString("aspect4"),
-                data.GetString("aspect5")
+                data.GetString("Aspect1"),
+                data.GetString("Aspect2"),
+                data.GetString("Aspect3"),
+                data.GetString("Aspect4"),
+                data.GetString("Aspect5")
             }.Where(a => a != "");
 
             return new AspectTrigger(
-                data.GetString("entity"),
-                data.GetString("action"),
-                data.GetString("expiringAspect"),
+                data.GetString("Entity"),
+                data.GetString("Action"),
+                data.GetString("ExpiringAspect"),
                 aspects,
-                data.GetInt("weight")
+                data.GetInt("Weight")
             );
         }
 
@@ -162,48 +168,48 @@ namespace TableMode
             var aspectsToDelete = new List<string>();
             var antiAspectsToDelete = new List<string>();
 
-            if (!data.GetString("addAspect1").IsEmpty())
-                aspectsToAdd.Add(data.GetString("addAspect1"),data.GetInt("aspect1Time"));
-            if (!data.GetString("addAspect2").IsEmpty())
-                aspectsToAdd.Add(data.GetString("addAspect2"),data.GetInt("aspect2Time"));
+            if (!data.GetString("AddAspect1").IsEmpty())
+                aspectsToAdd.Add(data.GetString("AddAspect1"),data.GetInt("Aspect1Time"));
+            if (!data.GetString("AddAspect2").IsEmpty())
+                aspectsToAdd.Add(data.GetString("AddAspect2"),data.GetInt("Aspect2Time"));
 
-            if (!data.GetString("addAntiAspect1").IsEmpty())
-                antiAspectsToAdd.Add(data.GetString("addAntiAspect1Time"),data.GetInt("aspect1Time"));
-            if (!data.GetString("addAntiAspect2").IsEmpty())
-                antiAspectsToAdd.Add(data.GetString("addAntiAspect2Time"),data.GetInt("aspect2Time"));
+            if (!data.GetString("AddAntiAspect1").IsEmpty())
+                antiAspectsToAdd.Add(data.GetString("AddAntiAspect1Time"),data.GetInt("Aspect1Time"));
+            if (!data.GetString("AddAntiAspect2").IsEmpty())
+                antiAspectsToAdd.Add(data.GetString("AddAntiAspect2Time"),data.GetInt("Aspect2Time"));
 
-            if (!data.GetString("deleteAspect1").IsEmpty())
-                aspectsToDelete.Add(data.GetString("deleteAspect1"));
-            if (!data.GetString("deleteAspect2").IsEmpty())
-                aspectsToDelete.Add(data.GetString("deleteAspect2"));
+            if (!data.GetString("DeleteAspect1").IsEmpty())
+                aspectsToDelete.Add(data.GetString("DeleteAspect1"));
+            if (!data.GetString("DeleteAspect2").IsEmpty())
+                aspectsToDelete.Add(data.GetString("DeleteAspect2"));
 
-            if (!data.GetString("deleteAntiAspect1").IsEmpty())
-                antiAspectsToDelete.Add(data.GetString("deleteAntiAspect1"));
-            if (!data.GetString("deleteAntiAspect2").IsEmpty())
-                antiAspectsToDelete.Add(data.GetString("deleteAntiAspect2"));
+            if (!data.GetString("DeleteAntiAspect1").IsEmpty())
+                antiAspectsToDelete.Add(data.GetString("DeleteAntiAspect1"));
+            if (!data.GetString("DeleteAntiAspect2").IsEmpty())
+                antiAspectsToDelete.Add(data.GetString("DeleteAntiAspect2"));
             
             var IsEntityCardDestroyed = 
-                data.GetString("deleteEntity") != "" && data.GetString("deleteEntity") != "0";
+                data.GetString("DeleteEntity") != "" && data.GetString("DeleteEntity") != "0";
 
             var IsActionCardDestroyed =
-                data.GetString("deleteAction") != "" && data.GetString("deleteAction") != "0";
+                data.GetString("DeleteAction") != "" && data.GetString("DeleteAction") != "0";
             
             return new AspectResult(
-                data.GetString("addEntity"),
-                data.GetString("addAction"),
+                data.GetString("AddEntity"),
+                data.GetString("AddAction"),
                 new KeyValuePair<string, int>(
-                    data.GetString("addEntitiesFromGroup"),
-                    data.GetInt("countNewEntities")),
+                    data.GetString("AddEntitiesFromGroup"),
+                    data.GetInt("CountNewEntities")),
                 aspectsToAdd,
                 aspectsToDelete,
                 IsEntityCardDestroyed,
                 new KeyValuePair<string, int>(
-                    data.GetString("addActionsFromGroup"),
-                    data.GetInt("countNewActions")),
+                    data.GetString("AddActionsFromGroup"),
+                    data.GetInt("CountNewActions")),
                 antiAspectsToAdd,
                 antiAspectsToDelete,
                 IsActionCardDestroyed,
-                data.GetString("log")
+                data.GetString("Log")
                 );
         }
 
@@ -211,33 +217,33 @@ namespace TableMode
         {
             var aspects = new List<string>
             {
-                data.GetString("aspect1"),
-                data.GetString("aspect2"),
-                data.GetString("aspect3"),
-                data.GetString("aspect4"),
-                data.GetString("aspect5"),
-                data.GetString("aspect6")
+                data.GetString("Aspect1"),
+                data.GetString("Aspect2"),
+                data.GetString("Aspect3"),
+                data.GetString("Aspect4"),
+                data.GetString("Aspect5"),
+                data.GetString("Aspect6")
             }.Where(a => a != "");
 
             return new MergeTrigger(
-                data.GetString("entity"),
-                data.GetString("action"),
+                data.GetString("EntityId"),
+                data.GetString("ActionId"),
                 aspects,
-                data.GetInt("weight"));
+                data.GetInt("Weight"));
         }
 
         private IAspectModel GenerateAspectContentByCSV(Dictionary<string, object> data)
         {
             return new AspectModel
             (
-                data.GetString("id"),
-                data.GetString("asset"),
-                data.GetInt("order"),
-                data.GetString("group"),
-                data.GetString("name"),
-                data.GetString("description"),
+                data.GetString("Id"),
+                data.GetString("Asset"),
+                data.GetInt("Order"),
+                data.GetString("Group"),
+                data.GetString("Name"),
+                data.GetString("Description"),
                 GenerateAspectResultByCSV(data),
-                data.GetString("color")
+                data.GetString("Color (RGB)")
             );
         }
 
@@ -245,39 +251,39 @@ namespace TableMode
         {
             var aspects = new Dictionary<string, int>();
 
-            if (!data.GetString("aspect1").IsEmpty()) 
-                aspects.Add(data.GetString("aspect1"), data.GetInt("aspect1Time"));
-            if (!data.GetString("aspect2").IsEmpty()) 
-                aspects.Add(data.GetString("aspect2"), data.GetInt("aspect2Time"));
-            if (!data.GetString("aspect3").IsEmpty()) 
-                aspects.Add(data.GetString("aspect3"), data.GetInt("aspect3Time"));
-            if (!data.GetString("aspect4").IsEmpty()) 
-                aspects.Add(data.GetString("aspect4"), data.GetInt("aspect4Time"));
-            if (!data.GetString("aspect5").IsEmpty()) 
-                aspects.Add(data.GetString("aspect5"), data.GetInt("aspect5Time")); 
-            if (!data.GetString("aspect6").IsEmpty()) 
-                aspects.Add(data.GetString("aspect6"), data.GetInt("aspect6Time"));
+            if (!data.GetString("Aspect1").IsEmpty()) 
+                aspects.Add(data.GetString("Aspect1"), data.GetInt("Aspect1Time"));
+            if (!data.GetString("Aspect2").IsEmpty()) 
+                aspects.Add(data.GetString("Aspect2"), data.GetInt("Aspect2Time"));
+            if (!data.GetString("Aspect3").IsEmpty()) 
+                aspects.Add(data.GetString("Aspect3"), data.GetInt("Aspect3Time"));
+            if (!data.GetString("Aspect4").IsEmpty()) 
+                aspects.Add(data.GetString("Aspect4"), data.GetInt("Aspect4Time"));
+            if (!data.GetString("Aspect5").IsEmpty()) 
+                aspects.Add(data.GetString("Aspect5"), data.GetInt("Aspect5Time")); 
+            if (!data.GetString("Aspect6").IsEmpty()) 
+                aspects.Add(data.GetString("Aspect6"), data.GetInt("Aspect6Time"));
 
             var antiAspects = new Dictionary<string, int>();
 
-            if (!data.GetString("antiAspect1").IsEmpty()) 
-                antiAspects.Add(data.GetString("antiAspect1"), data.GetInt("aspect1Time"));
-            if (!data.GetString("antiAspect2").IsEmpty()) 
-                antiAspects.Add(data.GetString("antiAspect2"), data.GetInt("aspect2Time"));
-            if (!data.GetString("antiAspect3").IsEmpty()) 
-                antiAspects.Add(data.GetString("antiAspect3"), data.GetInt("aspect3Time"));
-            if (!data.GetString("antiAspect4").IsEmpty()) 
-                antiAspects.Add(data.GetString("antiAspect4"), data.GetInt("aspect4Time"));
+            if (!data.GetString("AntiAspect1").IsEmpty()) 
+                antiAspects.Add(data.GetString("AntiAspect1"), data.GetInt("Aspect1Time"));
+            if (!data.GetString("AntiAspect2").IsEmpty()) 
+                antiAspects.Add(data.GetString("AntiAspect2"), data.GetInt("Aspect2Time"));
+            if (!data.GetString("AntiAspect3").IsEmpty()) 
+                antiAspects.Add(data.GetString("AntiAspect3"), data.GetInt("Aspect3Time"));
+            if (!data.GetString("AntiAspect4").IsEmpty()) 
+                antiAspects.Add(data.GetString("AntiAspect4"), data.GetInt("Aspect4Time"));
 
             return new ActionCardModel(
-                data.GetString("id"),
-                data.GetString("group"),
-                data.GetString("asset"),
-                data.GetString("name"),
-                data.GetString("description"),
+                data.GetString("Id"),
+                data.GetString("Group"),
+                data.GetString("Asset"),
+                data.GetString("Name"),
+                data.GetString("Description"),
                 aspects,
                 antiAspects,
-                data.GetInt("uniqueness"),
+                data.GetInt("Uniqueness"),
                 0
             );
         }
@@ -286,40 +292,40 @@ namespace TableMode
         {
             var aspects = new Dictionary<string, int>();
 
-            if (!data.GetString("aspect1").IsEmpty()) 
-                aspects.Add(data.GetString("aspect1"), data.GetInt("aspect1Time"));
-            if (!data.GetString("aspect2").IsEmpty()) 
-                aspects.Add(data.GetString("aspect2"), data.GetInt("aspect2Time"));
-            if (!data.GetString("aspect3").IsEmpty()) 
-                aspects.Add(data.GetString("aspect3"), data.GetInt("aspect3Time"));
-            if (!data.GetString("aspect4").IsEmpty()) 
-                aspects.Add(data.GetString("aspect4"), data.GetInt("aspect4Time"));   
-            if (!data.GetString("aspect5").IsEmpty()) 
-                aspects.Add(data.GetString("aspect5"), data.GetInt("aspect5Time"));   
-            if (!data.GetString("aspect6").IsEmpty()) 
-                aspects.Add(data.GetString("aspect6"), data.GetInt("aspect6Time"));
+            if (!data.GetString("Aspect1").IsEmpty()) 
+                aspects.Add(data.GetString("Aspect1"), data.GetInt("Aspect1Time"));
+            if (!data.GetString("Aspect2").IsEmpty()) 
+                aspects.Add(data.GetString("Aspect2"), data.GetInt("Aspect2Time"));
+            if (!data.GetString("Aspect3").IsEmpty()) 
+                aspects.Add(data.GetString("Aspect3"), data.GetInt("Aspect3Time"));
+            if (!data.GetString("Aspect4").IsEmpty()) 
+                aspects.Add(data.GetString("Aspect4"), data.GetInt("Aspect4Time"));   
+            if (!data.GetString("Aspect5").IsEmpty()) 
+                aspects.Add(data.GetString("Aspect5"), data.GetInt("Aspect5Time"));   
+            if (!data.GetString("Aspect6").IsEmpty()) 
+                aspects.Add(data.GetString("Aspect6"), data.GetInt("Aspect6Time"));
 
             var antiAspects = new Dictionary<string, int>();
 
-            if (!data.GetString("antiAspect1").IsEmpty()) 
-                antiAspects.Add(data.GetString("antiAspect1"), data.GetInt("antiAspect1Time"));
-            if (!data.GetString("antiAspect2").IsEmpty()) 
-                antiAspects.Add(data.GetString("antiAspect2"), data.GetInt("antiAspect2Time"));
-            if (!data.GetString("antiAspect3").IsEmpty()) 
-                antiAspects.Add(data.GetString("antiAspect3"), data.GetInt("antiAspect3Time"));
-            if (!data.GetString("antiAspect4").IsEmpty()) 
-                antiAspects.Add(data.GetString("antiAspect4"), data.GetInt("antiAspect4Time"));
+            if (!data.GetString("AntiAspect1").IsEmpty()) 
+                antiAspects.Add(data.GetString("AntiAspect1"), data.GetInt("AntiAspect1Time"));
+            if (!data.GetString("AntiAspect2").IsEmpty()) 
+                antiAspects.Add(data.GetString("AntiAspect2"), data.GetInt("AntiAspect2Time"));
+            if (!data.GetString("AntiAspect3").IsEmpty()) 
+                antiAspects.Add(data.GetString("AntiAspect3"), data.GetInt("AntiAspect3Time"));
+            if (!data.GetString("AntiAspect4").IsEmpty()) 
+                antiAspects.Add(data.GetString("AntiAspect4"), data.GetInt("AntiAspect4Time"));
 
             return new EntityCardModel(
-                data.GetString("id"),
-                data.GetString("asset"),
-                data.GetString("group"),
-                data.GetString("name"),
-                data.GetString("description"),
+                data.GetString("Id"),
+                data.GetString("Asset"),
+                data.GetString("Group"),
+                data.GetString("Name"),
+                data.GetString("Description"),
                 aspects,
                 antiAspects,
-                data.GetInt("move"),
-                data.GetInt("uniqueness")
+                data.GetInt("Move"),
+                data.GetInt("Uniqueness")
             );
         }
 
@@ -330,44 +336,44 @@ namespace TableMode
             var aspectsToDelete = new List<string>();
             var antiAspectsToDelete = new List<string>();
 
-            if (!data.GetString("addAspect1").IsEmpty())
-                aspectsToAdd.Add(data.GetString("addAspect1"),data.GetInt("aspect1Time"));
-            if (!data.GetString("addAspect2").IsEmpty())
-                aspectsToAdd.Add(data.GetString("addAspect2"),data.GetInt("aspect2Time"));
+            if (!data.GetString("AddAspect1").IsEmpty())
+                aspectsToAdd.Add(data.GetString("AddAspect1"),data.GetInt("Aspect1Time"));
+            if (!data.GetString("AddAspect2").IsEmpty())
+                aspectsToAdd.Add(data.GetString("AddAspect2"),data.GetInt("Aspect2Time"));
 
-            if (!data.GetString("addAntiAspect1").IsEmpty())
-                antiAspectsToAdd.Add(data.GetString("addAntiAspect1Time"),data.GetInt("aspect1Time"));
-            if (!data.GetString("addAntiAspect2").IsEmpty())
-                antiAspectsToAdd.Add(data.GetString("addAntiAspect2Time"),data.GetInt("aspect2Time"));
+            if (!data.GetString("AddAntiAspect1").IsEmpty())
+                antiAspectsToAdd.Add(data.GetString("AddAntiAspect1Time"),data.GetInt("Aspect1Time"));
+            if (!data.GetString("AddAntiAspect2").IsEmpty())
+                antiAspectsToAdd.Add(data.GetString("AddAntiAspect2Time"),data.GetInt("Aspect2Time"));
 
-            if (!data.GetString("deleteAspect1").IsEmpty())
-                aspectsToDelete.Add(data.GetString("deleteAspect1"));
-            if (!data.GetString("deleteAspect2").IsEmpty())
-                aspectsToDelete.Add(data.GetString("deleteAspect2"));
+            if (!data.GetString("DeleteAspect1").IsEmpty())
+                aspectsToDelete.Add(data.GetString("DeleteAspect1"));
+            if (!data.GetString("DeleteAspect2").IsEmpty())
+                aspectsToDelete.Add(data.GetString("DeleteAspect2"));
 
-            if (!data.GetString("deleteAntiAspect1").IsEmpty())
-                antiAspectsToDelete.Add(data.GetString("deleteAntiAspect1"));
-            if (!data.GetString("deleteAntiAspect2").IsEmpty())
-                antiAspectsToDelete.Add(data.GetString("deleteAntiAspect2"));
+            if (!data.GetString("DeleteAntiAspect1").IsEmpty())
+                antiAspectsToDelete.Add(data.GetString("DeleteAntiAspect1"));
+            if (!data.GetString("DeleteAntiAspect2").IsEmpty())
+                antiAspectsToDelete.Add(data.GetString("DeleteAntiAspect2"));
             
             var IsEntityCardDestroyed = 
-                data.GetString("deleteEntity") != "" && data.GetString("deleteEntity") != "0";
+                data.GetString("DeleteEntity") != "" && data.GetString("DeleteEntity") != "0";
 
             return new MergeResult(
-                data.GetString("addEntity"),
-                data.GetString("addAction"),
+                data.GetString("AddEntity"),
+                data.GetString("AddAction"),
                 new KeyValuePair<string, int>(
-                    data.GetString("addEntitiesFromGroup"),
-                    data.GetInt("countNewActions")),
+                    data.GetString("AddEntitiesFromGroup"),
+                    data.GetInt("CountNewActions")),
                 new KeyValuePair<string, int>(
-                    data.GetString("addEntitiesFromGroup"),
-                    data.GetInt("countNewEntities")),
+                    data.GetString("AddEntitiesFromGroup"),
+                    data.GetInt("CountNewEntities")),
                 aspectsToAdd,
                 antiAspectsToAdd,
                 aspectsToDelete,
                 antiAspectsToDelete,
                 IsEntityCardDestroyed,
-                data.GetString("log")
+                data.GetString("Log")
                 );
         }
     }

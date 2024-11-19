@@ -14,6 +14,6 @@ namespace TableMode
         void PushLogMerge(string actionName, string entityName, string log);
         void SetNextStepLog(string log);
         void ShowEndScreen();
-        event Action OnNextStep;
+        event Action<int> OnNextStep;
     }
 }

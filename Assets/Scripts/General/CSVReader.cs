@@ -35,7 +35,8 @@ public static class CSVReader
                 var value = values[j]
                     .TrimStart(TRIM_CHARS)
                     .TrimEnd(TRIM_CHARS)
-                    .Replace("\\", "");
+                    .Replace("\\", "")
+                    .Trim('\"');
 
                 object finalValue = value;
 
@@ -48,7 +49,7 @@ public static class CSVReader
                     finalValue = f;
                 }
 
-                entry[header[j]] = finalValue;
+                entry[header[j].Trim('\"')] = finalValue;
             }
 
             list.Add(entry);
@@ -94,6 +95,17 @@ public static class CsvExtensions
         if (obj.ContainsKey(key))
             return obj[key].ToString();
 
+        Debug.Log(JsonConvert.SerializeObject(obj));
+        
+        foreach (var keyValuePair in obj)
+        {
+            Debug.Log(keyValuePair.Key);
+            Debug.Log(keyValuePair.Value);
+            Debug.Log(obj[key.Trim('\"')]);
+        }
+        
+        
+        
         throw new Exception($"Can't find field {key} in object {JsonConvert.SerializeObject(obj)}");
     }
 

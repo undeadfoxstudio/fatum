@@ -11,5 +11,6 @@ namespace TableMode
         IEnumerable<IMergeRuleModel> MergeRuleModels();
         IEnumerable<IAspectRuleModel> AspectRuleModels();
         IEnumerable<string> GetEntityIdsFromGroup(string groupId);
+        string GetRandomEntityIdFromGroup(string groupId, IList<string> exceptIds);
     }
 }

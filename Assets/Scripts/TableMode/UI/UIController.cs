@@ -7,29 +7,58 @@ namespace TableMode
 {
     public class UIController : IUIController
     {
-        public event Action OnNextStep;
+        public event Action<int> OnNextStep;
 
         private readonly IUIBehavior _iuiBehavior;
         private readonly UIAspect _uiAspectPrefab;
         private readonly UIAspect _uiAntiAspectPrefab;
         private readonly IAssetsProvider _assetsProvider;
+        private readonly IHandController _handController;
+        private readonly ITableController _tableController;
+        private readonly ICardSpawner _cardSpawner;
 
+        private int _step;
+        
         public UIController(
             IUIBehavior iuiBehavior,
             UIAspect uiAspectPrefab,
             UIAspect uiAntiAspectPrefab,
-            IAssetsProvider assetsProvider)
+            IAssetsProvider assetsProvider,
+            IHandController handController,
+            ITableController tableController,
+            ICardSpawner cardSpawner)
         {
             _iuiBehavior = iuiBehavior;
             _uiAspectPrefab = uiAspectPrefab;
             _uiAntiAspectPrefab = uiAntiAspectPrefab;
             _assetsProvider = assetsProvider;
+            _handController = handController;
+            _tableController = tableController;
+            _cardSpawner = cardSpawner;
 
             iuiBehavior.OnNextStepClick += UiPrefabOnNextStepButtonClick;
             iuiBehavior.OnContactAsButton += IuiBehaviorOnContactAsButton;
             iuiBehavior.OnContactAsTgButton += IuiBehaviorOnContactAsTgButton;
             iuiBehavior.OnContactAsSkypeButton += IuiBehaviorOnOnContactAsSkypeButton;
             iuiBehavior.OnSiteButton += IuiBehaviorOnOnSiteButton;
+            iuiBehavior.OnRepeatButton += IuiBehaviorOnOnRepeatButton;
+        }
+
+        private void IuiBehaviorOnOnRepeatButton()
+        {
+            _handController.Clear();
+            _tableController.Clear();
+            
+            _cardSpawner.SpawnEntity("new_street", new Vector2Int(10,3));
+            _cardSpawner.SpawnEntity("new_room", new Vector2Int(12,3));
+            _cardSpawner.SpawnEntity("desktop", new Vector2Int(14,3));
+            _cardSpawner.SpawnEntity("lumber", new Vector2Int(12,2));
+            _cardSpawner.SpawnEntity("rare_book2", new Vector2Int(12,2));
+
+            _cardSpawner.SpawnActionCardDefault();
+            _cardSpawner.SpawnActionCardDefault();
+            _cardSpawner.SpawnActionCardDefault();
+            _cardSpawner.SpawnActionCardDefault();
         }
 
         private void IuiBehaviorOnOnSiteButton()
@@ -81,7 +110,7 @@ namespace TableMode
         {
             var formattedActionName = "<color=green>" + actionName + "</color>";
             var formattedEntityName = "<color=red>" + entityName + "</color>";
-            var formattedResult = log.IsEmpty() ? "Это действие ни к чему не привело." : log;  
+            var formattedResult = log.IsEmpty() ? "This action led to nothing." : log;  
 
             var formattedLog = 
                 formattedActionName + " + " + 
@@ -125,7 +154,22 @@ namespace TableMode
 
         private void UiPrefabOnNextStepButtonClick()
         {
-            OnNextStep?.Invoke();
+            _step++;
+            
+            if (_step == 25)
+            {
+                _step = 1;
+                
+                OnNextStep?.Invoke(_step);
+                
+                _iuiBehavior.ClearLog();
+
+                ShowEndScreen();
+
+                return;
+            }
+            
+            OnNextStep?.Invoke(_step);
         }
     }
 }

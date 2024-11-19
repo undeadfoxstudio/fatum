@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ad9f85103154e86accea1bec2843aeb, type: 3}
   m_Name: ContentConfig
   m_EditorClassIdentifier: 
-  Aspects: {fileID: 4900000, guid: 546ea3c5c3727bd41a33a3ad9f9afcc7, type: 3}
-  ActionCards: {fileID: 4900000, guid: 75aec3edd33f4f146855d74fe4fe7764, type: 3}
-  EntityCards: {fileID: 4900000, guid: e59ea342145c5504895f1e001f6c3a04, type: 3}
-  MergeRules: {fileID: 4900000, guid: 89740a9741a153e4eae570ea9860d510, type: 3}
-  AspectRules: {fileID: 4900000, guid: 2121f0b9ab62c0d4a9c2b263ee2af0c6, type: 3}
-  AntiAspectRules: {fileID: 4900000, guid: 8444fcc6cf609a44ab7d8a1bb99928ae, type: 3}
+  Aspects: {fileID: 4900000, guid: d918fe9e92fd47341ab786a04ce911fd, type: 3}
+  ActionCards: {fileID: 4900000, guid: 6aa0b7f2f5c360a4a8d16b13ebcc9fd3, type: 3}
+  EntityCards: {fileID: 4900000, guid: 2693ca329f52b65449d411df749d82be, type: 3}
+  MergeRules: {fileID: 4900000, guid: ebd63da4f8e0bf843b03638219e8830b, type: 3}
+  AspectRules: {fileID: 4900000, guid: e6f8a2e6422989d4ebf912748f25f7e8, type: 3}
+  AntiAspectRules: {fileID: 4900000, guid: b5115a9379906c948ad0579aa2b3bedc, type: 3}

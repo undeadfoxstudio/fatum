@@ -13,5 +13,6 @@ namespace TableMode
         void RemoveCard(IEntityCardView entityCard);
         void SwitchCardState(CardReady mode);
         IEnumerable<IEntityCardView> GetExpiredEntityCards();
+        IEnumerable<string> GetTableCardIds();
     }
 }

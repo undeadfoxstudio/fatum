@@ -24,6 +24,7 @@ public class UIPrefab : MonoBehaviour, IUIBehavior
     public event Action OnContactAsTgButton;
     public event Action OnContactAsSkypeButton;
     public event Action OnSiteButton;
+    public event Action OnRepeatButton;
 
     public void OnContactAsTgButtonClick()
     {
@@ -45,22 +46,29 @@ public class UIPrefab : MonoBehaviour, IUIBehavior
         _endScreen.SetActive(true);
     }
 
+    public void OnRepeatButtonClick()
+    {
+        _endScreen.SetActive(false);
+
+        OnRepeatButton?.Invoke();
+    }
+
     public void OnSiteButtonClick()
     {
         OnSiteButton?.Invoke();
     }
 
-    private List<string> _helperTexts = new List<string>
+    private readonly List<string> _helperTexts = new List<string>
     {
-        "Одинаковые <color=blue>аспекты</color> карт позволяют объединить <color=green>карту</color>" +
-        " из руки с <color=red>картой</color> на столе.",
-        "Каждый <color=blue>аспект</color> можно использовать только один раз за ход.",
-        "<color=blue>Временные аспекты</color> обновляют карту когда их таймер заканчивается.",
-        "Что-то происходит когда <color=blue>временный аспект</color> на карте заканчивается.",
-        "Такие аспекты как <color=blue>Фокус</color> и <color=blue>Время</color> удаляют карту когда истекают.",
-        "<color=purple>Антиаспекты</color> запрещают объединять карты.",
-        "<color=blue>Аспекты</color> на <color=red>карте</color> становятся серыми на один ход после объединения. " +
-        "С карты пропадают яркие краски.",
+        "The same <color=blue>aspects</color> of the cards allow you to combine the <color=green>card</color> from your hand with the <color=red>card</color> on the table.",
+        "You can use each <color=blue>aspect</color> only once per turn.",
+        "<color=blue>Temporal aspects</color> refresh the card when their timer runs out.",
+        "Something happens when the <color=blue>temporal aspect</color> on the card runs out.",
+        "Aspects such as <color=blue>Focus</color> and <color=blue>Time</color> remove the card when they expire.",
+        "<color=purple>Anti-aspects</color> prohibit combining cards.",
+        "If there are too many cards like <color=red>Rat</color> or <color=red>Madness</color> on the table, you will lose.",
+        "<color=blue>Aspects</color> on the <color=red>card</color> turn gray for one turn after being combined. The bright colors disappear from the card.",
+        "The more <color=blue>aspects</color> match at the time of combination, the more effective the result."
     };
 
     private void Awake()
@@ -89,6 +97,11 @@ public class UIPrefab : MonoBehaviour, IUIBehavior
         _scrollRectLog.gameObject.SetActive(false);
         _scrollRectLog.gameObject.SetActive(true);
         _scrollRectLog.verticalNormalizedPosition = 0f;
+    }
+
+    public void ClearLog()
+    {
+        _log.text = "";
     }
 
     public void SetNextStepLog(string log)

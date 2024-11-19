@@ -9,6 +9,7 @@ public interface IUIBehavior
     void ShowInspector();
     void HideInspector();
     void PushLog(string log);
+    void ClearLog();
     void SetNextStepLog(string log);
     void ShowEndScreen();
     event  Action OnNextStepClick;
@@ -16,4 +17,5 @@ public interface IUIBehavior
     event  Action OnContactAsTgButton;
     event  Action OnContactAsSkypeButton;
     event Action OnSiteButton;
+    event Action OnRepeatButton;
 }

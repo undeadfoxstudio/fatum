@@ -8,8 +8,7 @@ namespace TableMode
     {
         private readonly HandConfig _handConfig;
         private readonly IList<IActionCardView> _handCards = new List<IActionCardView>();
-
-        public bool IsFull => _handCards.Count >= _handConfig.CardCount;
+        public int CardNeeded => _handConfig.CardCount - _handCards.Count;
 
         public HandController(HandConfig handConfig)
         {
@@ -55,6 +54,14 @@ namespace TableMode
         {
             foreach (var actionCardView in _handCards)
                 actionCardView.NextStep();
+        }
+
+        public void Clear()
+        {
+            foreach (var actionCardView in _handCards)
+                actionCardView.Destroy();
+
+            _handCards.Clear();
         }
 
         public void TakeCard(IActionCardView card)

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
-using UnityEngine;
 
 namespace TableMode
 {
     public class MergeController : IMergeController, IDisposable
     {
+        private readonly IContentProvider _contentProvider;
         private readonly IMoveActionCardsController _moveActionCardsController;
         private readonly ICardSpawner _cardSpawner;
         private readonly IHandController _handController;
@@ -19,6 +18,7 @@ namespace TableMode
         private readonly IInputController _inputController;
 
         public MergeController(
+            IContentProvider contentProvider,
             IMoveActionCardsController moveActionCardsController,
             ICardSpawner cardSpawner,
             IHandController handController,
@@ -28,6 +28,7 @@ namespace TableMode
             IMergeStorage mergeStorage,
             IUIController uiController)
         {
+            _contentProvider = contentProvider;
             _moveActionCardsController = moveActionCardsController;
             _cardSpawner = cardSpawner;
 
@@ -75,7 +76,7 @@ namespace TableMode
 
             foreach (var aspectId in aspects)
                 entityCard.DisableAspect(aspectId);
-            
+
             entityCard.UpdateGradient();
 
             var mergeTrigger = new MergeTrigger(
@@ -84,18 +85,22 @@ namespace TableMode
                 aspects,
                 0);
 
-            Debug.Log(JsonConvert.SerializeObject(mergeTrigger));
-            
             _handController.RemoveCard(actionCard);
-            
-            var mergeResult = _ruleController.GetResult(mergeTrigger);
-            
-            
 
-            if (mergeResult == null) return;
+            var mergeResult = _ruleController.GetResult(mergeTrigger);
+
+            if (mergeResult == null)
+            {
+                _uiController.PushLogMerge(
+                    actionCard.Name, 
+                    entityCard.Name, 
+                    "This action didn't lead to anything. Or I didn't notice the result.");
+
+                return;
+            }
     
             _uiController.PushLogMerge(actionCard.Name, entityCard.Name, mergeResult.Log);            
-            
+
             var currentTableSlot = _tableController.GetSlotPositionByEntityCardView(entityCard);
 
             if (mergeResult.AspectsToAdd.Any())
@@ -115,28 +120,31 @@ namespace TableMode
 
             if (!string.IsNullOrWhiteSpace(mergeResult.ActionCardIdToAdd))
                 _cardSpawner.SpawnActionCardById(mergeResult.ActionCardIdToAdd, currentTableSlot);
-
-            
             
             if (mergeResult.EntitiesFromGroupToAdd.Value > 0)
             {
+                var tableIds = _tableController.GetTableCardIds().ToList();
                 
-                _cardSpawner.SpawnEntities(
-                    mergeResult.EntitiesFromGroupToAdd.Key,
-                    mergeResult.EntitiesFromGroupToAdd.Value,
-                    currentTableSlot);
+                for (var i = 0; i < mergeResult.EntitiesFromGroupToAdd.Value; i++)
+                {
+                    var newCardId = _contentProvider.GetRandomEntityIdFromGroup(
+                        mergeResult.EntitiesFromGroupToAdd.Key, tableIds);
+
+                    if (string.IsNullOrEmpty(newCardId)) continue;
+
+                    _cardSpawner.SpawnEntity(newCardId, currentTableSlot);
+                    tableIds.Add(newCardId);
+                }
             }
 
             if (mergeResult.IsEntityCardDestroyed)
                 _tableController.RemoveCard(entityCard);
         }
 
-        private bool HasBlockingAspects(IEnumerable<IAspect> firstAspects, IEnumerable<IAspect> secondAspects)
-        {
-            return firstAspects
+        private bool HasBlockingAspects(IEnumerable<IAspect> firstAspects, IEnumerable<IAspect> secondAspects) =>
+            firstAspects
                 .Select(firstAspect => secondAspects.FirstOrDefault(s => s.Name == firstAspect.Name))
                 .Any(sameAspect => sameAspect != null);
-        }
 
         private IEnumerable<IAspect> SameAspects(IEnumerable<IAspect> firstAspects, IEnumerable<IAspect> secondAspects)
         {

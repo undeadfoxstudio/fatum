@@ -4,5 +4,6 @@ namespace TableMode
     {
         void CatchCard(ICardView entityCard);
         void NextStep();
+        void Clear();
     }
 }

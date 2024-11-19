@@ -121,6 +121,8 @@ namespace TableMode
                 .Select(aspectView => aspectView.Aspect.IsActive ? aspectView.Aspect.GradientColor : Color.gray)
                 .ToList();
 
+            if (colors.Count == 0) colors.Add(Color.gray);
+            
             Texture2D texture = null;
 
             switch (colors.Count)

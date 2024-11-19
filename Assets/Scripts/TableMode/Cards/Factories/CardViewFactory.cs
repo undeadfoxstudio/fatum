@@ -44,7 +44,10 @@ namespace TableMode
 
         public IEntityCardView CreateEntityCard(string entityId)
         {
+            Debug.Log(entityId);
+            Debug.Log(_contentProvider.GetEntityById(entityId));
             var asset = _contentProvider.GetEntityById(entityId).Asset;
+            
             var cardBehavior = UnityEngine.Object.Instantiate(_entityCardPrefab);
             
             if (!string.IsNullOrEmpty(asset))

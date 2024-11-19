@@ -15,13 +15,10 @@ namespace TableMode
                 .AsSingle()
                 .WithArguments(_uiAspect, _uiAntiAspect)
                 .NonLazy();
-            
+
             Container.Bind<IUIBehavior>()
                 .FromComponentInNewPrefab(_uiBehavior)
                 .AsSingle();
         }
-        
-        
-        
     }
 }
