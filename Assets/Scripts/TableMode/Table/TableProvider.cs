@@ -10,7 +10,7 @@ namespace TableMode
         public BoxCollider Collider { get; }
         private readonly TableSlotsConfig _tableSlotsConfig;
 
-        public Dictionary<Vector2Int, Vector3> Positions { get; } = new Dictionary<Vector2Int, Vector3>();
+        public Dictionary<Vector2Int, Vector3> Positions { get; } = new ();
 
         public TableProvider(TableSlotsConfig tableSlotsConfig, BoxCollider tableCollider)
         {
@@ -51,20 +51,20 @@ namespace TableMode
                 _tableSlotsConfig.SlotHeight);
 
             for (var x = 0; x < _tableSlotsConfig.CountSlotX; x++)
-            for (var y = 0; y < _tableSlotsConfig.CountSlotY; y++)
-            {
-                var newPosition = _tableSlotsConfig.TableCenterPosition;
+                for (var y = 0; y < _tableSlotsConfig.CountSlotY; y++)
+                {
+                    var newPosition = _tableSlotsConfig.TableCenterPosition;
 
-                newPosition.x += x * _tableSlotsConfig.SlotWidth + _tableSlotsConfig.SlotPaddingWidth * x - offsetX;
-                newPosition.z += y * _tableSlotsConfig.SlotHeight + _tableSlotsConfig.SlotPaddingHeight * y - offsetY;
+                    newPosition.x += x * _tableSlotsConfig.SlotWidth + _tableSlotsConfig.SlotPaddingWidth * x - offsetX;
+                    newPosition.z += y * _tableSlotsConfig.SlotHeight + _tableSlotsConfig.SlotPaddingHeight * y - offsetY;
 
-                newSlots.Add(new Vector2Int(x, y), newPosition);
-            }
+                    newSlots.Add(new Vector2Int(x, y), newPosition);
+                }
 
             return newSlots;
         }
 
-        private float GetSlotsCenterOffset(int count, float padding, float slotSize) =>
-            slotSize * (count - 1) / 2 + padding * (count - 1) / 2;
+        private float GetSlotsCenterOffset(int count, float padding, float slotSize) 
+            => slotSize * (count - 1) / 2 + padding * (count - 1) / 2;
     }
 }

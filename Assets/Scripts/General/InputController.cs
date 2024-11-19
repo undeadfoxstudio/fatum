@@ -21,7 +21,7 @@ namespace TableMode
                 position = Input.mousePosition
             };
             var raycastResults = new List<RaycastResult>();
-            
+
             EventSystem.current.RaycastAll(eventData, raycastResults );
             
             foreach (var currentRaycastResult in raycastResults)

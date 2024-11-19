@@ -8,7 +8,7 @@ namespace TableMode
     {
         public override void OnInspectorGUI()
         {
-            DrawDefaultInspector(); // Рисует стандартный инспектор
+            DrawDefaultInspector();
 
             var myScript = (TableImport)target;
             if (GUILayout.Button("Импорт"))

@@ -14,7 +14,7 @@ namespace TableMode
                 .To<TableProvider>()
                 .AsSingle()
                 .WithArguments(MainTableSlotsConfig, TableCollider);
-            
+
             Container.Bind<ITableController>()
                 .To<TableController>()
                 .AsSingle()

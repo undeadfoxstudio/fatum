@@ -27,10 +27,6 @@ namespace TableMode
             _cardSpawner.SpawnActionCardDefault();
             _cardSpawner.SpawnActionCardDefault();
             _cardSpawner.SpawnActionCardDefault();
-            /*_cardSpawner.SpawnActionCardById("curiosity", Vector2Int.zero);
-            _cardSpawner.SpawnActionCardById("loneliness", Vector2Int.zero);
-            _cardSpawner.SpawnActionCardById("determination", Vector2Int.zero);
-            _cardSpawner.SpawnActionCardById("curiosity", Vector2Int.zero);*/
         }
     }
 }

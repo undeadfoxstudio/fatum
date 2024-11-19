@@ -82,14 +82,13 @@ namespace TableMode
                 cardPositionsValue.SwitchModeTo(mode);
         }
 
-        public IEnumerable<IEntityCardView> GetExpiredEntityCards()
-        {
-            return _cardPositions.Values.Where(c => 
-                c.Aspects.Any(a => a.Count == 1) ||
+        public IEnumerable<IEntityCardView> GetExpiredEntityCards() => 
+            _cardPositions.Values.Where(c => 
+                c.Aspects.Any(a => a.Count == 1) || 
                 c.AntiAspects.Any(a => a.Count == 1));
-        }
 
-        public IEnumerable<string> GetTableCardIds() => _cardPositions.Values.Select(c => c.Id).Distinct();
+        public IEnumerable<string> GetTableCardIds() => 
+            _cardPositions.Values.Select(c => c.Id).Distinct();
 
         public Vector2Int GetSlotPositionByEntityCardView(IEntityCardView entityCardView) =>
             _cardPositions.FirstOrDefault(c => c.Value == entityCardView).Key;
@@ -116,7 +115,7 @@ namespace TableMode
 
             var currentSlotPosition = _tableProvider.Positions[position];
             var nearbySlot = GetBestNearbySlot(currentSlotPosition);
-            
+
             _cardPositions.Add(nearbySlot, entityCardView);
 
             return _tableProvider.Positions[nearbySlot];
@@ -127,14 +126,13 @@ namespace TableMode
             if (FreeSlotPositions.Count == 0)
                 throw new Exception("Not found empty slot.");
 
-            
             var nearbySlotLength = GetVectors3Length(currentPosition, FreeSlotPositions.First().Value);
             var nearbySlotPosition = FreeSlotPositions.First().Key;
-            
+
             foreach (var freeSlotPosition in FreeSlotPositions)
             {
                 var currentSlotLength = GetVectors3Length(currentPosition, freeSlotPosition.Value);
-                
+
                 if (currentSlotLength < nearbySlotLength)
                 {
                     nearbySlotLength = currentSlotLength;

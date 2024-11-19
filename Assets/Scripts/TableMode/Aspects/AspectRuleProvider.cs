@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
-using UnityEngine;
 
 namespace TableMode
 {
@@ -13,7 +11,7 @@ namespace TableMode
         {
             _contentProvider = contentProvider;
         }
-        
+
         public IList<IAspectResult> GetActionCardAspectResults(IAspect aspect, IList<IAspect> otherAspects, string actionId)
         {
             return _contentProvider.AspectRuleModels()

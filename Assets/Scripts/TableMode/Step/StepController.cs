@@ -9,8 +9,8 @@ namespace TableMode
 {
     public class StepController : IStepController
     {
-        private readonly DateTime startDate = new (1970, 3, 2);
-        
+        private readonly DateTime _startDate = new (1970, 3, 2);
+
         private readonly IUIController _iUIController;
         private readonly IHandController _handController;
         private readonly ICardSpawner _cardSpawner;
@@ -38,11 +38,11 @@ namespace TableMode
 
         private void ControlBehaviorOnNextStep(int step)
         {
-            var newDate = startDate
+            var newDate = _startDate
                 .AddDays(step)
                 .ToString("dddd, dd MMMM", CultureInfo.CreateSpecificCulture("en-US"))
                 .FirstCharToUpper();
-            
+
             _iUIController.SetNextStepLog(newDate);
             _iUIController.PushLog(" ------ " + newDate + " ------ \n");
 
@@ -59,9 +59,8 @@ namespace TableMode
             var newCardNeed = _handController.CardNeeded;
 
             for (var i = 0; i < newCardNeed; i++)
-            _cardSpawner.SpawnActionCardDefault();
-           // _cardSpawner.SpawnActionCardDefault();
-            
+                _cardSpawner.SpawnActionCardDefault();
+
             _handController.NextStep();
             _tableController.NextStep();
         }
@@ -89,13 +88,13 @@ namespace TableMode
                     entityCardView.Id);
 
                 if (!currentAspectResults.Any()) continue;
-                
+
                 allEntityCardAspectResults.AddRange(currentAspectResults);
 
                 if (currentAspectResults.Any(r => r.IsEntityCardDestroyed))
                     isCardDeleted = true;
             }
-            
+
             //remove aspects
             foreach (var entityCardAspectResult in allEntityCardAspectResults)
                 foreach (var aspectToDelete in entityCardAspectResult.AspectsToDelete)
@@ -104,11 +103,11 @@ namespace TableMode
             //remove antiAspects
             foreach (var aspect in entityCardView.AntiAspects.Where(a => a.Count == 1).ToList())
                 entityCardView.RemoveAntiAspect(aspect.Id);
-            
+
             //remove expired aspects
             foreach (var removedAspect in removedAspects)
                 entityCardView.RemoveAspect(removedAspect);
-            
+
             //add aspects
             var addingAspects = allEntityCardAspectResults
                 .SelectMany(entityCardAspectResult => entityCardAspectResult.AspectsToAdd)
@@ -119,6 +118,7 @@ namespace TableMode
 
             //should be BEFORE spawning new entities
             var cardPosition = _tableController.GetSlotPositionByEntityCardView((IEntityCardView)entityCardView);
+
             if (isCardDeleted)
             {
                 _iUIController.PushLog(
@@ -217,22 +217,19 @@ namespace TableMode
                     allActionCardAspectResult.ActionsFromGroupToAdd.Key,
                     allActionCardAspectResult.ActionsFromGroupToAdd.Value);
             }
-            
+
             //always should be last
             if (isCardDeleted)
-            {
                 _handController.RemoveCard((IActionCardView)actionCardView);
-            }
         }
     }
-    
+
     public static class Extensions
     {
         public static string FirstCharToUpper(this string str)
         {
-            if (String.IsNullOrEmpty(str)) {
+            if (string.IsNullOrEmpty(str))
                 throw new ArgumentException("Input string is empty!");
-            }
  
             return str.First().ToString().ToUpper() + string.Concat(str.Skip(1));
         }

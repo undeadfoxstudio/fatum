@@ -17,7 +17,7 @@ public class TableImport : MonoBehaviour
         public string SheetName;
         public TextAsset Asset;
     }
-        
+
     private string[] Scopes = { SheetsService.Scope.SpreadsheetsReadonly };
     private string ApplicationName = "fatum";
     private string SpreadsheetId = "1T7HckJJha-BqWqz_zuOQ1W3RNlXl6laQeEq3iRdgrPI";
@@ -86,7 +86,7 @@ public class TableImport : MonoBehaviour
                 Debug.Log("No data found.");
             }
         }
-        
+
         Debug.Log("Import done.");
     }
 }

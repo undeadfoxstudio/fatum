@@ -38,6 +38,7 @@ namespace TableMode
         {
             var sprite = Resources.Load<Sprite>(path);
             if (sprite == null) throw new Exception("Cant find sprite with path: " + path);
+
             return sprite;
         }
 
@@ -54,7 +55,6 @@ namespace TableMode
             var path = Path.Combine(
                 _assetsConfig.AspectAssetsDirectory, 
                 name + _assetsConfig.InactiveAspectNamePostfix);
-
             var sprite = Resources.Load<Sprite>(path);
 
             return sprite != null ? sprite : _assetsConfig.DefaultDisabledAspect;
@@ -65,7 +65,6 @@ namespace TableMode
             var path = Path.Combine(
                 _assetsConfig.AspectAssetsDirectory, 
                 name + _assetsConfig.InactiveAspectNamePostfix);
-
             var sprite = Resources.Load<Sprite>(path);
 
             return sprite != null ? sprite : _assetsConfig.DefaultDisabledAspect;
